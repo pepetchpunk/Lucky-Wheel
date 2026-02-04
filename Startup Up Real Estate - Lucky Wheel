@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <!-- ปรับปรุง Meta Tag เพื่อป้องกันการ Zoom บนมือถืออย่างเข้มงวด -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Startup Up Real Estate - Lucky Wheel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* ป้องกันการเลือกข้อความและการ Touch Gestures ที่อาจทำให้เกิดการซูม */
+        * {
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f3f4f6;
+            overflow: hidden; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* ป้องกันการเลื่อนหน้าจอแบบ Pull-to-refresh ในบางเบราว์เซอร์ */
+            overscroll-behavior-y: contain;
+        }
+        
+        .game-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header-section {
+            padding-top: 10px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .game-setup {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            flex: 1;
+            justify-content: center;
+            min-height: 0;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 75vw;
+            max-width: 320px;
+            aspect-ratio: 1 / 1;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #wheelCanvas {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+
+        .wheel-stand {
+            width: 70%;
+            height: 140px;
+            background-color: #2d6a4f;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            margin-top: -50px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 20px;
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.3);
+            border-bottom: 6px solid #1b4332;
+        }
+
+        .pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 40px;
+            background-color: #e63946;
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 40;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+        }
+
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+            border: 3px solid #2d6a4f;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 100;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .page-overlay {
+            position: fixed;
+            inset: 0;
+            background: #f3f4f6;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2d6a4f;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .action-area {
+            padding-bottom: 30px;
+            padding-top: 10px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="p-4" oncontextmenu="return false;">
+
+    <!-- 1. หน้ากติกาการเล่น -->
+    <div id="termsPage" class="page-overlay">
+        <div class="bg-white p-8 rounded-[2rem] shadow-xl max-w-sm w-full border-b-8 border-[#2d6a4f]">
+            <h2 class="text-2xl font-bold text-[#2d6a4f] mb-4 text-center">กติกาการร่วมสนุก</h2>
+            <div class="text-gray-600 space-y-3 mb-8 overflow-y-auto max-h-[40vh] pr-2 text-sm">
+                <p>1. ผู้เข้าร่วมกิจกรรมต้องลงทะเบียนข้อมูลให้ครบถ้วนก่อนเริ่มเล่น</p>
+                <p>2. จำกัดสิทธิ์การหมุนวงล้อ 1 ท่าน (1 เบอร์โทรศัพท์) ต่อ 1 สิทธิ์เท่านั้น</p>
+                <p>3. ของรางวัลไม่สามารถแลกเปลี่ยนเป็นเงินสดหรือโอนสิทธิ์ให้ผู้อื่นได้</p>
+                <p>4. แคปเจอร์หน้าจอผลลัพธ์เพื่อแสดงหลักฐานต่อเจ้าหน้าที่ในการรับรางวัล</p>
+                <p>5. บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลงเงื่อนไขโดยไม่ต้องแจ้งให้ทราบล่วงหน้า</p>
+            </div>
+            <button onclick="acceptTerms()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#1b4332] shadow-lg transition-all">
+                ยอมรับและดำเนินการต่อ
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. หน้าลงทะเบียน (Login) -->
+    <div id="loginPage" class="page-overlay hidden">
+        <div class="bg-white p-6 rounded-[2rem] shadow-xl max-w-sm w-full border-b-8 border-[#2d6a4f] overflow-y-auto max-h-[90vh]">
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-bold text-[#2d6a4f]">ลงทะเบียนร่วมสนุก</h2>
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ชื่อ-นามสกุล</label>
+                    <input type="text" id="userName" placeholder="กรอกชื่อของคุณ" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d6a4f] transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">เบอร์โทรศัพท์ติดต่อ</label>
+                    <input type="tel" id="userPhone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="กรอกเบอร์โทรศัพท์ 10 หลัก" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d6a4f] transition-all text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">หมายเหตุ (ถ้ามี)</label>
+                    <textarea id="userNote" placeholder="ระบุโครงการที่สนใจ หรืออื่นๆ" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#2d6a4f] transition-all text-sm h-20"></textarea>
+                </div>
+                <div id="loginStatus" class="hidden text-center py-1">
+                    <div class="loader"></div>
+                    <span class="text-xs text-gray-500">กำลังตรวจสอบสิทธิ์...</span>
+                </div>
+                <button id="loginBtn" onclick="handleLogin()" class="w-full bg-[#2d6a4f] text-white py-3.5 rounded-2xl font-bold text-lg hover:bg-[#1b4332] shadow-lg transition-all mt-2">
+                    เข้าสู่เกม
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Content -->
+    <div id="gameContent" class="game-wrapper opacity-0 pointer-events-none transition-opacity duration-500">
+        <!-- Header Actions & Logo -->
+        <div class="header-section">
+            <div class="flex justify-between px-2 mb-2">
+                <button onclick="toggleInfo('conditionModal')" class="bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg shadow-sm border border-gray-200 text-xs font-semibold text-[#2d6a4f]">
+                    📋 เงื่อนไข
+                </button>
+                <button onclick="showHistory()" class="bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg shadow-sm border border-gray-200 text-xs font-semibold text-[#2d6a4f]">
+                    🕒 ประวัติรางวัล
+                </button>
+            </div>
+            <div class="bg-white px-6 py-2 rounded-2xl shadow-md border-b-4 border-[#2d6a4f] inline-block">
+                <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="h-10 w-auto">
+            </div>
+        </div>
+
+        <!-- Wheel Section -->
+        <div class="game-setup">
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <div class="center-logo">
+                     <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="logo-img">
+                </div>
+                <canvas id="wheelCanvas" width="800" height="800"></canvas>
+            </div>
+            <div class="wheel-stand">
+            </div>
+        </div>
+
+        <!-- Bottom Action Area -->
+        <div class="action-area">
+            <button id="spinBtn" class="bg-[#2d6a4f] hover:bg-[#1b4332] text-white text-xl font-bold py-4 px-16 rounded-full shadow-2xl transition-all active:scale-95 border-b-4 border-[#1b4332]">
+                หมุนวงล้อ
+            </button>
+            
+            <!-- ปุ่มไลน์ในหน้าหลัก (จะแสดงหลังจากเล่นเสร็จ) -->
+            <a id="mainLineBtn" href="https://line.me/ti/p/@YOUR_LINE_ID" target="_blank" class="hidden flex items-center justify-center gap-2 w-full max-w-[280px] bg-[#06C755] text-white py-3 rounded-full font-bold shadow-lg hover:brightness-95 transition-all animate-bounce">
+                <span>🟢</span> ติดต่อรับรางวัลทาง LINE
+            </a>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="conditionModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60] p-6 backdrop-blur-sm" onclick="this.style.display='none'">
+        <div class="bg-white rounded-2xl p-6 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
+            <h4 class="text-lg font-bold text-[#2d6a4f] mb-3">เงื่อนไขการร่วมสนุก</h4>
+            <ul class="text-sm text-gray-600 text-left list-disc pl-4 space-y-2">
+                <li>สงวนสิทธิ์ 1 ท่าน ต่อ 1 การหมุน</li>
+                <li>ของรางวัลไม่สามารถแลกเป็นเงินสดได้</li>
+                <li>เงื่อนไขเป็นไปตามที่บริษัทกำหนด</li>
+            </ul>
+            <button onclick="toggleInfo('conditionModal')" class="mt-6 w-full py-2 bg-gray-100 rounded-xl font-bold text-gray-600">ปิด</button>
+        </div>
+    </div>
+
+    <div id="historyModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60] p-6 backdrop-blur-sm" onclick="this.style.display='none'">
+        <div class="bg-white rounded-2xl p-6 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
+            <h4 class="text-lg font-bold text-[#2d6a4f] mb-3">ประวัติการหมุนของคุณ</h4>
+            <div id="historyList" class="max-h-[30vh] overflow-y-auto space-y-2">
+                <!-- ประวัติจะถูกใส่ที่นี่ -->
+            </div>
+            <button onclick="toggleInfo('historyModal')" class="mt-6 w-full py-2 bg-gray-100 rounded-xl font-bold text-gray-600">ปิด</button>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alertModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[110] p-6 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 max-w-xs w-full shadow-2xl text-center border-t-8 border-red-500">
+            <div class="text-5xl mb-4">⚠️</div>
+            <h4 class="text-lg font-bold text-gray-800 mb-2">ไม่สามารถใช้สิทธิ์ได้</h4>
+            <p id="alertMessage" class="text-sm text-gray-600 mb-6">เบอร์โทรศัพท์นี้ได้ใช้สิทธิ์หมุนวงล้อไปแล้ว</p>
+            <button onclick="closeAlert()" class="w-full py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg">ตกลง</button>
+        </div>
+    </div>
+
+    <!-- Winner Result Modal -->
+    <div id="resultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[70] p-6 backdrop-blur-md">
+        <div id="captureArea" class="bg-white rounded-[2.5rem] max-w-sm w-full p-8 text-center shadow-2xl border-b-8 border-[#2d6a4f]">
+            <div id="prizeIcon" class="text-7xl mb-4 bg-gray-50 w-24 h-24 flex items-center justify-center rounded-full mx-auto"></div>
+            <h3 class="text-xl font-bold text-gray-800 mb-1">ยินดีด้วย!</h3>
+            <p id="winnerNameDisplay" class="text-xs text-[#2d6a4f] font-semibold"></p>
+            <p class="text-sm text-gray-400 mb-4">คุณได้รับ</p>
+            <div id="prizeResult" class="text-2xl font-bold text-[#2d6a4f] py-3 px-4 bg-green-50 rounded-2xl border-2 border-dashed border-[#2d6a4f] mb-6"></div>
+            
+            <div class="flex flex-col gap-3">
+                <a href="https://line.me/ti/p/@YOUR_LINE_ID" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#06C755] text-white py-3 rounded-xl font-bold shadow-md hover:brightness-95 transition-all">
+                    <span>🟢</span> ติดต่อรับรางวัลทาง LINE
+                </a>
+                
+                <button id="downloadBtn" onclick="saveAsImage()" class="hidden w-full bg-blue-500 text-white py-3 rounded-xl font-bold shadow-md hover:bg-blue-600 transition-all">
+                    📸 บันทึกรูปภาพ (เฉพาะคอม)
+                </button>
+
+                <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#1b4332] opacity-50 cursor-not-allowed" disabled>
+                    ตกลง
+                </button>
+            </div>
+            <div id="saveStatus" class="text-[10px] text-gray-400 mt-4 italic">กำลังบันทึกข้อมูล...</div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd315o8kF2Z8anaBxgwTIbXMvg0Sx9NmoP4DLLV96bLUwTeG37uE6wGMzfLs6mBzC8ww/exec"; 
+
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const mainLineBtn = document.getElementById('mainLineBtn');
+        const modal = document.getElementById('resultModal');
+        const alertModal = document.getElementById('alertModal');
+        const prizeDisplay = document.getElementById('prizeResult');
+        const prizeIconBox = document.getElementById('prizeIcon');
+
+        let userData = { name: '', phone: '', note: '' };
+        let userPrizeHistory = [];
+
+        const prizes = [
+            { label: 'แอร์', color: '#ffffff', textColor: '#2d6a4f', icon: '❄️' },
+            { label: 'ส่วนลด 20,000.-', color: '#2d6a4f', textColor: '#ffffff', icon: '💰' },
+            { label: 'โซฟา', color: '#ffffff', textColor: '#2d6a4f', icon: '🛋️' },
+            { label: 'ตู้เย็น', color: '#2d6a4f', textColor: '#ffffff', icon: '🧊' },
+            { label: 'ผ้าม่าน', color: '#ffffff', textColor: '#2d6a4f', icon: '🧺' },
+            { label: 'ทีวี', color: '#2d6a4f', textColor: '#ffffff', icon: '📺' },
+            { label: 'ชุดโต๊ะอาหาร', color: '#ffffff', textColor: '#2d6a4f', icon: '🍽️' },
+            { label: 'เตียงนอน', color: '#2d6a4f', textColor: '#ffffff', icon: '🛏️' }
+        ];
+
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        // ล็อกการ Zoom ในระดับ JavaScript เพื่อความชัวร์ในบางเบราว์เซอร์
+        document.addEventListener('touchstart', (event) => {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        function isDesktop() {
+            return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+        }
+
+        if (isDesktop()) {
+            document.getElementById('downloadBtn').classList.remove('hidden');
+        }
+
+        function acceptTerms() {
+            document.getElementById('termsPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function showAlert(msg) {
+            document.getElementById('alertMessage').innerText = msg;
+            alertModal.classList.remove('hidden');
+            alertModal.classList.add('flex');
+        }
+
+        function closeAlert() {
+            alertModal.classList.add('hidden');
+            alertModal.classList.remove('flex');
+        }
+
+        async function handleLogin() {
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const note = document.getElementById('userNote').value.trim();
+
+            if (!name || !phone) {
+                showAlert('กรุณากรอกชื่อและเบอร์โทรศัพท์');
+                return;
+            }
+
+            if (phone.length !== 10) {
+                showAlert('กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก');
+                return;
+            }
+
+            document.getElementById('loginBtn').disabled = true;
+            document.getElementById('loginStatus').classList.remove('hidden');
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'check', phone: phone })
+                });
+                const result = await response.json();
+
+                if (result.exists) {
+                    showAlert('เบอร์โทรศัพท์นี้ได้ใช้สิทธิ์หมุนวงล้อไปแล้ว');
+                    document.getElementById('loginBtn').disabled = false;
+                    document.getElementById('loginStatus').classList.add('hidden');
+                    return;
+                }
+
+                userData.name = name;
+                userData.phone = phone;
+                userData.note = note;
+
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('gameContent').classList.remove('opacity-0', 'pointer-events-none');
+                drawWheel();
+            } catch (error) {
+                console.error(error);
+                showAlert('ไม่สามารถเชื่อมต่อระบบตรวจสอบได้');
+                document.getElementById('loginBtn').disabled = false;
+                document.getElementById('loginStatus').classList.add('hidden');
+            }
+        }
+
+        function drawWheel() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = canvas.width / 2 - 20;
+            const sliceAngle = (2 * Math.PI) / prizes.length;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            prizes.forEach((prize, i) => {
+                const angle = i * sliceAngle;
+                ctx.beginPath();
+                ctx.fillStyle = prize.color;
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, angle, angle + sliceAngle);
+                ctx.closePath();
+                ctx.fill();
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(angle + sliceAngle / 2);
+                ctx.font = "50px serif";
+                ctx.textAlign = "center";
+                ctx.fillText(prize.icon, radius * 0.5, 20);
+                ctx.textAlign = "right";
+                ctx.fillStyle = prize.textColor;
+                ctx.font = "bold 32px Kanit";
+                ctx.fillText(prize.label, radius - 40, 10);
+                ctx.restore();
+            });
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.strokeStyle = '#1b4332';
+            ctx.lineWidth = 10;
+            ctx.stroke();
+        }
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+            spinBtn.disabled = true;
+
+            const spins = 8 + Math.floor(Math.random() * 5);
+            const extraDegrees = Math.floor(Math.random() * 360);
+            const totalRotation = (spins * 360) + extraDegrees;
+            
+            currentRotation += totalRotation;
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                const actualDegrees = (currentRotation % 360);
+                const prizeIndex = Math.floor(((360 - (actualDegrees - 270)) % 360) / (360 / prizes.length));
+                showResult(prizes[prizeIndex]);
+                createConfetti();
+            }, 4100);
+        }
+
+        async function showResult(prizeObj) {
+            document.getElementById('winnerNameDisplay').innerText = `คุณ ${userData.name}`;
+            prizeDisplay.innerText = prizeObj.label;
+            prizeIconBox.innerText = prizeObj.icon;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            userPrizeHistory.push({
+                prize: prizeObj.label,
+                time: new Date().toLocaleTimeString('th-TH')
+            });
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        action: 'save', 
+                        name: userData.name, 
+                        phone: userData.phone, 
+                        prize: prizeObj.label,
+                        note: userData.note
+                    })
+                });
+                document.getElementById('saveStatus').innerText = "บันทึกข้อมูลเรียบร้อยแล้ว ✅";
+                const closeBtn = document.getElementById('closeModalBtn');
+                closeBtn.disabled = false;
+                closeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                
+                // หลังจากหมุนเสร็จและบันทึก
+                spinBtn.innerText = "คุณใช้สิทธิ์แล้ว";
+                spinBtn.disabled = true;
+                spinBtn.classList.add('opacity-50');
+                
+                // แสดงปุ่ม LINE ในหน้าหลัก
+                mainLineBtn.classList.remove('hidden');
+                
+            } catch (error) {
+                document.getElementById('saveStatus').innerText = "เกิดข้อผิดพลาดในการบันทึก กรุณาแคปหน้าจอไว้!";
+                document.getElementById('closeModalBtn').disabled = false;
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showHistory() {
+            const list = document.getElementById('historyList');
+            if (userPrizeHistory.length === 0) {
+                list.innerHTML = `<p class="text-center text-gray-400 text-sm py-4">ยังไม่มีประวัติการได้รับรางวัล</p>`;
+            } else {
+                list.innerHTML = userPrizeHistory.map(item => `
+                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-xl border border-green-100">
+                        <span class="font-bold text-[#2d6a4f]">${item.prize}</span>
+                        <span class="text-xs text-gray-400">${item.time}</span>
+                    </div>
+                `).join('');
+            }
+            toggleInfo('historyModal');
+        }
+
+        function saveAsImage() {
+            const area = document.getElementById('captureArea');
+            html2canvas(area, { backgroundColor: '#ffffff', scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `startup-prize-${userData.phone}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function toggleInfo(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                el.classList.add('flex');
+            } else {
+                el.classList.add('hidden');
+                el.classList.remove('flex');
+            }
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = ['#2d6a4f', '#ffffff', '#e63946', '#ffd700'][Math.floor(Math.random() * 4)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        spinBtn.addEventListener('click', spin);
+        window.onload = drawWheel;
+    </script>
+</body>
+</html>
