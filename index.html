@@ -541,8 +541,10 @@
                 <button onclick="goBackToSelectionFromWheel()" class="text-gray-400 font-bold text-sm">← กลับหน้าหลัก</button>
             </div>
             <div class="flex justify-between items-center mt-2 mb-2">
-                <!-- ลบปุ่มเงื่อนไขออกจากตรงนี้ และแทนที่ด้วย div ว่างเพื่อรักษาสมดุล -->
-                <div class="w-[60px]"></div>
+                <!-- แก้ไข: เปลี่ยนข้อความปุ่ม -->
+                <button onclick="toggleInfo('prizesModal')" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
+                    รายการของรางวัล
+                </button>
 
                 <!-- แก้ไข: เอา backdrop-blur ออกจากกล่องโลโก้และปุ่มประวัติ -->
                 <div class="bg-white/90 px-5 py-2 rounded-2xl shadow-sm border border-gray-100">
@@ -676,6 +678,17 @@
             <button onclick="toggleInfo('historyModal')" class="mt-8 w-full py-3 bg-gray-50 rounded-2xl font-bold text-gray-400">ปิดหน้าต่าง</button>
         </div>
     </div>
+    
+    <!-- Prizes Modal (เพิ่มใหม่) -->
+    <div id="prizesModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('prizesModal')">
+        <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl relative" onclick="event.stopPropagation()">
+            <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">รายการของรางวัล</h4>
+            <div id="prizesList" class="max-h-[50vh] overflow-y-auto space-y-3 pr-2">
+                <!-- JS will populate this -->
+            </div>
+            <button onclick="toggleInfo('prizesModal')" class="mt-6 w-full py-3 bg-gray-50 rounded-2xl font-bold text-gray-400 text-sm">ปิดหน้าต่าง</button>
+        </div>
+    </div>
 
     <!-- Alert Error Modal -->
     <div id="alertModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-6 backdrop-blur-sm">
@@ -767,6 +780,7 @@
                     loadedImagesCount++;
                     if (loadedImagesCount === prizes.length) {
                         drawWheel(); // Redraw once all images are loaded
+                        renderPrizesList(); // Re-render list with processed images
                     }
                 };
                 img.onerror = () => {
@@ -1220,6 +1234,37 @@
                 hModal.classList.add('flex');
             }
         }
+        
+        // --- Prizes List Function (แก้ไข: ลบพื้นหลังและใช้รูปโปร่งใส) ---
+        function renderPrizesList() {
+            const list = document.getElementById('prizesList');
+            list.innerHTML = '';
+            
+            // ใช้ prizes array แทน rawPrizes เพื่อเข้าถึง imgObj ที่โหลดเสร็จแล้ว
+            prizes.forEach((p, index) => {
+                const item = document.createElement('div');
+                // ลบ border ออกเล็กน้อยเพื่อให้ดูสะอาดตาขึ้น
+                item.className = 'flex items-center gap-4 border-b border-gray-100 pb-3 last:border-0 last:pb-0';
+                
+                // ตรวจสอบและใช้รูปภาพที่ตัดพื้นหลังแล้ว (ถ้ามี)
+                let imgSrc = p.img;
+                if (p.imgObj && p.imgObj.complete) {
+                    imgSrc = getTransparentImageSrc(p.imgObj);
+                }
+
+                // ลบ bg-[#f0fdf4] และ border เดิมออก
+                item.innerHTML = `
+                    <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                        <img src="${imgSrc}" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-left">
+                        <p class="text-sm font-bold text-[#1b4332] leading-tight">${p.label.replace(/\n/g, ' ')}</p>
+                        <p class="text-[10px] text-gray-400 mt-0.5">รางวัลที่ ${index + 1}</p>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
 
         function saveAsImage() {
             const area = document.getElementById('captureArea');
@@ -1386,6 +1431,7 @@
             preloadImages(); // Start loading images
             drawWheel();
             setLineLinks();
+            renderPrizesList(); // Render prize list on load (initial)
 
             // Intro Animation Logic
             setTimeout(() => {
