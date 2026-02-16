@@ -25,6 +25,16 @@
             overscroll-behavior-y: contain;
         }
         
+        /* Intro Animation Styles */
+        #introPage {
+            transition: opacity 1.5s ease-out, visibility 1.5s;
+        }
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
         .game-wrapper {
             display: flex;
             flex-direction: column;
@@ -155,6 +165,12 @@
             margin-right: 10px;
         }
         @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* เพิ่ม Animation หมุนช้าๆ สำหรับวงล้อหน้าแรก */
+        @keyframes spin-slow {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
@@ -313,26 +329,106 @@
             height: 100%;
             object-fit: cover;
         }
+
+        /* Result Cards Style (New) */
+        .prize-result-container {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .prize-card {
+            flex: 1;
+            background: #f0fdf4;
+            border: 2px solid #dcfce7;
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .prize-card-img-wrapper {
+            width: 50px;
+            height: 50px;
+            background: transparent; /* แก้ไข: เปลี่ยนเป็นใสเพื่อให้เห็นพื้นหลังการ์ด */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        .prize-card-img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+        }
+        .prize-card-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1b4332;
+            line-height: 1.2;
+        }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
+    <!-- Intro Animation Page -->
+    <div id="introPage" class="fixed inset-0 bg-[#f3f4f6] z-[200] flex flex-col items-center justify-center">
+        <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-28 mb-8 animate-pulse object-contain">
+        <h1 class="text-3xl font-bold text-[#2d6a4f] text-center px-4 mb-3 drop-shadow-sm leading-tight">
+            March Lucky Home
+        </h1>
+        <p class="text-xl text-[#1b4332] font-medium text-center">จังหวะดี ของการมีบ้าน</p>
+    </div>
+
     <!-- 0. หน้าเลือกบริการ (New) -->
     <div id="selectionPage" class="page-overlay hidden">
-        <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-16 mb-12">
-        <h1 class="text-2xl font-bold text-gray-800 mb-8">เลือกบริการที่คุณต้องการ</h1>
+        <!-- เพิ่มปุ่มเงื่อนไขที่มุมซ้ายบน -->
+        <button onclick="toggleInfo('conditionModal')" class="absolute top-5 left-5 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-200 text-xs font-bold text-[#2d6a4f] z-50 hover:bg-gray-50 transition-all active:scale-95">
+            เงื่อนไข
+        </button>
+
+        <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-16 mb-4">
+        
+        <!-- เพิ่มชื่อแคมเปญหน้าเลือก -->
+        <div class="text-center mb-6">
+            <h2 class="text-xl font-bold text-[#2d6a4f]">March Lucky Home</h2>
+            <p class="text-base text-gray-500 font-medium">จังหวะดี ของการมีบ้าน</p>
+        </div>
+
+        <h1 class="text-lg font-bold text-gray-800 mb-6">เลือกโปรโมชั่นที่ต้องการ</h1>
         <div class="flex flex-col gap-6 w-full items-center">
             <!-- กล่องที่ 1: สุ่มวงล้อ -->
             <div onclick="navigateTo('luckyWheel')" class="selection-card">
-                <div class="icon-bg">🎡</div>
-                <h3 class="text-xl font-bold text-[#2d6a4f]">สุ่มวงล้อลุ้นโชค</h3>
-                <p class="text-sm text-gray-400 mt-2">ลงทะเบียนเพื่อร่วมสนุกรับของรางวัล</p>
+                <!-- แก้ไข: ปรับปรุงวงล้อจำลองให้หมุนตลอดเวลา -->
+                <div class="icon-bg" style="background: none; padding: 0; overflow: hidden; border: 4px solid #1b4332; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative;">
+                    
+                    <!-- ส่วนวงล้อที่หมุน (ใช้ animation: spin-slow) -->
+                    <div style="width: 100%; height: 100%; position: absolute; inset: 0; animation: spin-slow 10s linear infinite;">
+                         <!-- CSS Wheel (8 Segments) -->
+                         <div style="width: 100%; height: 100%; border-radius: 50%; background: repeating-conic-gradient(#2d6a4f 0deg 45deg, #ffffff 45deg 90deg); position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);"></div>
+                    </div>
+
+                    <!-- ส่วนที่อยู่กับที่ (โลโก้ตรงกลาง) -->
+                    <div style="position: absolute; inset: 0; margin: auto; width: 55%; height: 55%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid #1b4332; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10;">
+                         <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" style="width: 75%; height: 75%; object-fit: contain;">
+                    </div>
+
+                    <!-- ส่วนที่อยู่กับที่ (เข็ม) เปลี่ยนสีเป็น #e63946 ตามที่ขอ -->
+                    <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 16px; height: 20px; background: #e63946; clip-path: polygon(50% 100%, 0 0, 100% 0); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); z-index: 20;"></div>
+                </div>
+                <h3 class="text-xl font-bold text-[#2d6a4f]">สุ่มวงล้อรับของรางวัล</h3>
+                <p class="text-sm text-gray-400 mt-2">ทางบริษัทแจกของรางวัลฟรี 2 รายการ</p>
             </div>
             <!-- กล่องที่ 2: ทำบุญขึ้นบ้านใหม่ -->
-            <div onclick="navigateTo('houseBlessing')" class="selection-card" style="border-bottom-color: #3b82f6;">
-                <div class="icon-bg" style="background-color: #eff6ff;">🏠</div>
-                <h3 class="text-xl font-bold text-blue-600">ทำบุญขึ้นบ้านใหม่</h3>
-                <p class="text-sm text-gray-400 mt-2">บริการออกแบบรูปและจัดพิธีทำบุญ</p>
+            <div onclick="navigateTo('houseBlessing')" class="selection-card" style="border-bottom-color: #2d6a4f;">
+                <div class="icon-bg" style="background-color: #f0fdf4;">🏠</div>
+                <h3 class="text-xl font-bold text-[#2d6a4f]">แพ็กเกจทำบุญขึ้นบ้านใหม่</h3>
+                <p class="text-sm text-gray-400 mt-2">ทางบริษัทจัดงานทำบุญขึ้นบ้านใหม่ให้ฟรี</p>
             </div>
         </div>
     </div>
@@ -340,21 +436,27 @@
     <!-- 1. กติกา (เดิม) -->
     <div id="termsPage" class="page-overlay">
         <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl max-w-sm w-full border-b-[10px] border-[#2d6a4f]">
+            <!-- เพิ่มชื่อแคมเปญหน้ากติกา -->
+            <div class="text-center mb-6 border-b border-gray-100 pb-4">
+                <h3 class="text-xl font-bold text-[#2d6a4f]">March Lucky Home</h3>
+                <p class="text-sm text-gray-500">จังหวะดี ของการมีบ้าน</p>
+            </div>
+
             <h2 class="text-2xl font-bold text-[#2d6a4f] mb-4 text-center">กติกาการร่วมสนุก</h2>
             <div class="text-gray-600 space-y-4 mb-8 overflow-y-auto max-h-[40vh] pr-2 text-sm leading-relaxed">
                 <p>1. ผู้เข้าร่วมกิจกรรมต้องลงทะเบียนข้อมูลให้ครบถ้วน</p>
-                <p>2. จำกัดสิทธิ์การหมุนวงล้อ 1 ท่าน ต่อ 1 สิทธิ์เท่านั้น</p>
+                <p>2. จำกัดสิทธิ์ 1 ท่าน ต่อ 1 สิทธิ์เท่านั้น</p>
                 <p>3. ของรางวัลไม่สามารถแลกเปลี่ยนเป็นเงินสดได้</p>
                 <p>4. <b>บันทึกรูปภาพหน้าจอ</b> เพื่อเป็นหลักฐานในการรับรางวัล</p>
                 <p>5. ติดต่อรับรางวัลผ่าน LINE Official ของบริษัท</p>
             </div>
             <button onclick="acceptTerms()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#1b4332] shadow-lg transition-all active:scale-95">
-                ตกลงและเริ่มเล่น
+                ตกลงและเริ่มกิจกรรม
             </button>
         </div>
     </div>
 
-    <!-- 2. ลงทะเบียน (แก้ไขนำโครงการที่สนใจออก) -->
+    <!-- 2. ลงทะเบียน -->
     <div id="loginPage" class="page-overlay hidden">
         <div class="bg-white p-7 rounded-[2.5rem] shadow-2xl max-w-sm w-full border-b-[10px] border-[#2d6a4f]">
             <div class="text-center mb-6">
@@ -375,25 +477,25 @@
                     <span class="text-xs text-gray-500">กำลังตรวจสอบข้อมูล...</span>
                 </div>
                 <button id="loginBtn" onclick="handleLogin()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#1b4332] shadow-lg transition-all active:scale-95 mt-2">
-                    เข้าสู่เกม
+                    เข้าสู่กิจกรรม
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 3. หน้าทำบุญขึ้นบ้านใหม่ (แก้ไขเพิ่มปุ่มประวัติ) -->
+    <!-- 3. หน้าทำบุญขึ้นบ้านใหม่ -->
     <div id="houseBlessingPage" class="page-overlay hidden bg-white">
         <div class="game-wrapper px-6 py-4">
             <div class="flex justify-between items-center mb-8">
                 <button onclick="goBackToSelectionFromHouse()" class="text-gray-400 font-bold">← กลับหน้าหลัก</button>
                 <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-8">
-                <button onclick="showHouseHistory()" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-blue-600">
+                <button onclick="showHouseHistory()" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
                     ประวัติ
                 </button>
             </div>
 
             <div class="flex-1 overflow-y-auto pb-24">
-                <h2 class="text-2xl font-bold text-blue-600 mb-2">บริการทำบุญขึ้นบ้านใหม่</h2>
+                <h2 class="text-2xl font-bold text-[#2d6a4f] mb-2">บริการทำบุญขึ้นบ้านใหม่</h2>
                 <p class="text-gray-500 text-sm mb-6">ออกแบบงานทำบุญในสไตล์ที่คุณต้องการ และเลือกแพ็กเกจที่เหมาะสมสำหรับบ้านใหม่ของคุณ</p>
                 
                 <div class="space-y-6">
@@ -409,9 +511,9 @@
                         <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewImage(event)">
                     </div>
 
-                    <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-                        <h4 class="font-bold text-blue-800 text-sm mb-2">จุดเด่นบริการของเรา</h4>
-                        <ul class="text-xs text-blue-600 space-y-1">
+                    <div class="bg-[#f0fdf4] p-4 rounded-2xl border border-[#dcfce7]">
+                        <h4 class="font-bold text-[#1b4332] text-sm mb-2">จุดเด่นบริการของเรา</h4>
+                        <ul class="text-xs text-[#2d6a4f] space-y-1">
                             <li>• จัดหาอุปกรณ์สงฆ์ครบชุด</li>
                             <li>• นิมนต์พระและรถรับส่ง</li>
                             <li>• ออกแบบสถานที่แบบ 3D เบื้องต้น</li>
@@ -422,7 +524,7 @@
             </div>
 
             <div class="fixed bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100 max-w-[420px] mx-auto">
-                <button id="claimHouseBtn" onclick="initClaimHouse()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all mb-3">
+                <button id="claimHouseBtn" onclick="initClaimHouse()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all mb-3">
                     🎁 กดรับสิทธิ์ทำบุญขึ้นบ้านใหม่
                 </button>
                 <a id="houseLineBtn" href="#" target="_blank" class="hidden house-line-btn items-center justify-center gap-2 w-full bg-[#06C755] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95">
@@ -432,20 +534,21 @@
         </div>
     </div>
 
-    <!-- Main Game (เดิม) -->
+    <!-- Main Game -->
     <div id="gameContent" class="game-wrapper opacity-0 pointer-events-none transition-opacity duration-700">
         <div class="header-section px-4">
             <div class="text-left mt-2 -mb-1">
                 <button onclick="goBackToSelectionFromWheel()" class="text-gray-400 font-bold text-sm">← กลับหน้าหลัก</button>
             </div>
             <div class="flex justify-between items-center mt-2 mb-2">
-                <button onclick="toggleInfo('conditionModal')" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
-                    เงื่อนไข
-                </button>
-                <div class="bg-white px-5 py-2 rounded-2xl shadow-sm border border-gray-100">
+                <!-- ลบปุ่มเงื่อนไขออกจากตรงนี้ และแทนที่ด้วย div ว่างเพื่อรักษาสมดุล -->
+                <div class="w-[60px]"></div>
+
+                <!-- แก้ไข: เอา backdrop-blur ออกจากกล่องโลโก้และปุ่มประวัติ -->
+                <div class="bg-white/90 px-5 py-2 rounded-2xl shadow-sm border border-gray-100">
                     <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="h-8 w-auto">
                 </div>
-                <button onclick="showHistory()" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
+                <button onclick="showHistory()" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
                     ประวัติ
                 </button>
             </div>
@@ -473,29 +576,33 @@
     </div>
 
     <!-- Winner Modal (Wheel) -->
-    <!-- แก้ไข z-index เป็น z-[110] เพื่อให้อยู่เหนือหน้าอื่นๆ ทั้งหมด -->
     <div id="resultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md">
         <div class="max-w-sm w-full flex flex-col items-center">
             
             <div id="captureArea">
-                <div id="prizeIcon" class="capture-icon-circle"></div>
+                <!-- ส่วนแสดงผลรางวัลใหม่แบบแยก 2 ใบ -->
+                <div id="prizeIcon" class="hidden"></div> <!-- ซ่อนอันเดิมไว้ -->
                 <h3 class="capture-title">ยินดีด้วย!</h3>
                 <p id="winnerNameDisplay" class="capture-subtitle"></p>
                 <p id="winnerPhoneDisplay" class="capture-subtitle last"></p>
-                <div class="capture-prize-box">
-                    <span class="capture-prize-label">ของรางวัลที่ได้รับ</span>
-                    <div id="prizeResult" class="capture-prize-value"></div>
+                
+                <span class="capture-prize-label mb-2">ของรางวัลที่ได้รับ</span>
+                <div id="prizeResultContainer" class="prize-result-container">
+                    <!-- JS จะใส่การ์ดรางวัลที่นี่ -->
                 </div>
+                <!-- ซ่อนอันเดิมไว้ -->
+                <div id="prizeResult" class="hidden"></div>
+
                 <p class="capture-footer-text">STARTUP UP REAL ESTATE</p>
                 
                 <!-- เพิ่มช่องใส่โครงการในใบสรุปวงล้อ -->
                 <div class="mt-3 w-full border-t border-dashed border-gray-200 pt-3">
-                    <input type="text" placeholder="ระบุโครงการที่สนใจพิมพ์ที่นี่..." class="w-full text-center text-[13px] font-semibold text-[#2d6a4f] focus:outline-none bg-transparent placeholder-gray-300">
+                    <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#2d6a4f] focus:outline-none bg-transparent placeholder-gray-300">
                 </div>
             </div>
 
             <div class="mt-6 w-full flex flex-col gap-3">
-                <button id="downloadBtn" onclick="saveAsImage()" class="w-full bg-blue-500 text-white py-3.5 rounded-2xl font-bold shadow-lg hover:bg-blue-600 transition-all flex items-center justify-center gap-2 active:scale-95">
+                <button id="downloadBtn" onclick="saveAsImage()" class="w-full bg-[#2d6a4f] text-white py-3.5 rounded-2xl font-bold shadow-lg hover:bg-[#1b4332] transition-all flex items-center justify-center gap-2 active:scale-95">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
                 <a id="resultLineBtn" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#06C755] text-white py-3.5 rounded-2xl font-bold shadow-lg active:scale-95">
@@ -510,17 +617,16 @@
     </div>
 
     <!-- Winner Modal (House Blessing Summary) -->
-    <!-- แก้ไข z-index เป็น z-[110] เพื่อให้อยู่เหนือหน้าอื่นๆ ทั้งหมด -->
     <div id="houseResultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md">
         <div class="max-w-sm w-full flex flex-col items-center">
             <div id="captureHouseArea">
-                <div class="w-[110px] h-[110px] bg-blue-50 rounded-full mb-5 flex items-center justify-center text-[55px] border-2 border-blue-100">🏠</div>
+                <div class="w-[110px] h-[110px] bg-[#f0fdf4] rounded-full mb-5 flex items-center justify-center text-[55px] border-2 border-[#dcfce7]">🏠</div>
                 <h3 class="capture-title">รับสิทธิ์สำเร็จ!</h3>
                 <p id="houseWinnerNameDisplay" class="capture-subtitle"></p>
                 <p id="houseWinnerPhoneDisplay" class="capture-subtitle last"></p>
-                <div class="w-full border-2 border-dashed border-blue-500 rounded-[20px] bg-blue-50 p-[22px_15px] mb-[25px] flex flex-col gap-[6px]">
-                    <span class="text-[13px] text-blue-600 font-normal uppercase tracking-[0.05em]">รายการที่คุณได้รับ</span>
-                    <ul class="text-[15px] font-bold text-blue-700 leading-relaxed text-left pl-6 list-disc">
+                <div class="w-full border-2 border-dashed border-[#2d6a4f] rounded-[20px] bg-[#f7fee7] p-[22px_15px] mb-[25px] flex flex-col gap-[6px]">
+                    <span class="text-[13px] text-[#2d6a4f] font-normal uppercase tracking-[0.05em]">รายการที่คุณได้รับ</span>
+                    <ul class="text-[15px] font-bold text-[#1b4332] leading-relaxed text-left pl-6 list-disc">
                         <li>จัดหาอุปกรณ์สงฆ์ครบชุด</li>
                         <li>นิมนต์พระและรถรับส่ง</li>
                         <li>ออกแบบสถานที่แบบ 3D</li>
@@ -531,12 +637,12 @@
                 
                 <!-- เพิ่มช่องใส่โครงการในใบสรุปทำบุญขึ้นบ้านใหม่ -->
                 <div class="mt-3 w-full border-t border-dashed border-gray-200 pt-3">
-                    <input type="text" placeholder="ระบุโครงการที่สนใจพิมพ์ที่นี่..." class="w-full text-center text-[13px] font-semibold text-blue-600 focus:outline-none bg-transparent placeholder-gray-300">
+                    <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#2d6a4f] focus:outline-none bg-transparent placeholder-gray-300">
                 </div>
             </div>
 
             <div class="mt-6 w-full flex flex-col gap-3">
-                <button onclick="saveHouseAsImage()" class="w-full bg-blue-500 text-white py-3.5 rounded-2xl font-bold shadow-lg hover:bg-blue-600 transition-all flex items-center justify-center gap-2 active:scale-95">
+                <button onclick="saveHouseAsImage()" class="w-full bg-[#2d6a4f] text-white py-3.5 rounded-2xl font-bold shadow-lg hover:bg-[#1b4332] transition-all flex items-center justify-center gap-2 active:scale-95">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
                 <button onclick="closeHouseModal()" class="w-full bg-gray-400 text-white py-4 rounded-2xl font-bold text-lg active:scale-95">
@@ -546,20 +652,24 @@
         </div>
     </div>
 
-    <!-- Condition Modals (เดิม) -->
-    <div id="conditionModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60] p-6 backdrop-blur-sm" onclick="this.style.display='none'">
+    <!-- Condition Modals -->
+    <!-- ปรับ z-index เป็น z-[150] ให้แสดงเหนือหน้าอื่นๆ -->
+    <div id="conditionModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('conditionModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
-            <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">เงื่อนไขการรับรางวัล</h4>
+            <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">เงื่อนไขกิจกรรม</h4>
             <ul class="text-sm text-gray-500 text-left list-disc pl-5 space-y-3">
-                <li>1 สิทธิ์ / 1 เบอร์โทรศัพท์ เท่านั้น</li>
-                <li>ต้องแสดงรูปภาพหลักฐานแก่เจ้าหน้าที่</li>
-                <li>บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลง</li>
+                <li>สามารถใช้ได้ 1 สิทธิ์ ต่อบ้าน 1 หลัง เท่านั้น</li>
+                <li>ไม่สามารถใช้ร่วมกับ ‘บัตรกำนัล’ อื่นของบริษัท สตาร์ทอัพ อัพ ได้</li>
+                <li>ไม่สามารถโอนสิทธิ์ ให้ผู้อื่นได้</li>
+                <li>หากยกเลิกสัญญา ‘จะซื้อจะขาย’ ภายหลัง ถือว่าสิทธิ์เป็นโมฆะ</li>
+                <li>บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลงเงื่อนไขโดยไม่ต้องแจ้งให้ทราบล่วงหน้า</li>
             </ul>
             <button onclick="toggleInfo('conditionModal')" class="mt-8 w-full py-3 bg-gray-50 rounded-2xl font-bold text-gray-400">ปิดหน้าต่าง</button>
         </div>
     </div>
 
-    <div id="historyModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60] p-6 backdrop-blur-sm" onclick="this.style.display='none'">
+    <!-- ปรับ z-index เป็น z-[150] ให้แสดงเหนือหน้าอื่นๆ -->
+    <div id="historyModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('historyModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
             <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">ประวัติรางวัล</h4>
             <div id="historyList" class="max-h-[30vh] overflow-y-auto space-y-3"></div>
@@ -567,7 +677,7 @@
         </div>
     </div>
 
-    <!-- Alert Error Modal (เดิม) -->
+    <!-- Alert Error Modal -->
     <div id="alertModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-6 backdrop-blur-sm">
         <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-red-500">
             <div class="text-6xl mb-4">🚫</div>
@@ -577,25 +687,25 @@
         </div>
     </div>
 
-    <!-- Success Modal (New) -->
+    <!-- Success Modal -->
     <div id="successModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-6 backdrop-blur-sm">
         <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-green-500">
-            <div class="text-6xl mb-4">✅</div>
+            <div class="text-6xl mb-4" id="successIcon">✅</div>
+            <img id="successImage" class="h-32 object-contain mx-auto mb-4 hidden">
             <h4 class="text-xl font-bold text-gray-800 mb-2">ได้รับสิทธิ์แล้ว</h4>
             <p id="successMessage" class="text-sm text-gray-500 mb-8 leading-relaxed whitespace-pre-line"></p>
             <button onclick="closeSuccess()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold shadow-lg active:scale-95">ตกลง</button>
         </div>
     </div>
 
-    <!-- Confirm Modal (New) -->
+    <!-- Confirm Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[120] p-6 backdrop-blur-sm">
-        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-blue-500">
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-[#2d6a4f]">
             <div class="text-6xl mb-4">❓</div>
             <h4 class="text-xl font-bold text-gray-800 mb-2">ยืนยันการรับสิทธิ์</h4>
             <p class="text-sm text-gray-500 mb-8 leading-relaxed">คุณต้องการรับสิทธิ์โปรโมชั่นทำบุญขึ้นบ้านใหม่ใช่หรือไม่? (หากรับแล้วจะไม่สามารถหมุนวงล้อได้)</p>
             <div class="flex gap-3">
-                <!-- สลับปุ่มยืนยันมาไว้ด้านซ้าย และยกเลิกไปด้านขวา -->
-                <button onclick="proceedClaimHouse()" class="w-full py-4 bg-blue-500 text-white rounded-2xl font-bold shadow-lg active:scale-95">ยืนยัน</button>
+                <button onclick="proceedClaimHouse()" class="w-full py-4 bg-[#2d6a4f] text-white rounded-2xl font-bold shadow-lg active:scale-95">ยืนยัน</button>
                 <button onclick="closeConfirm()" class="w-full py-4 bg-gray-200 text-gray-700 rounded-2xl font-bold active:scale-95">ยกเลิก</button>
             </div>
         </div>
@@ -614,26 +724,86 @@
         const alertModal = document.getElementById('alertModal');
         const prizeDisplay = document.getElementById('prizeResult');
         const prizeIconBox = document.getElementById('prizeIcon');
+        const prizeResultContainer = document.getElementById('prizeResultContainer');
 
-        let userData = { name: '', phone: '', note: '' }; // คง note ไว้เผื่อต้องการใช้งานภายหลัง
+        let userData = { name: '', phone: '', note: '' }; 
         let userPrizeHistory = [];
         let isSpinning = false;
         let currentRotation = 0;
-        let claimedPromo = null; // สถานะเก็บว่าใช้โปรไหนไปแล้ว ('wheel', 'house')
+        let claimedPromo = null; 
         
-        let spinCount = 0; // ตัวแปรสำหรับนับจำนวนครั้งที่หมุนวงล้อ
-        let currentSessionPrizes = []; // เก็บของรางวัลที่หมุนได้ในรอบนี้
+        let spinCount = 0; 
+        let currentSessionPrizes = []; 
+        let successCallback = null;
 
-        const prizes = [
-            { label: 'แอร์', color: '#ffffff', textColor: '#2d6a4f', icon: '❄️' },
-            { label: 'ส่วนลด 20,000.-', color: '#2d6a4f', textColor: '#ffffff', icon: '💰' },
-            { label: 'โซฟา', color: '#ffffff', textColor: '#2d6a4f', icon: '🛋️' },
-            { label: 'ตู้เย็น', color: '#2d6a4f', textColor: '#ffffff', icon: '🧊' },
-            { label: 'ผ้าม่าน', color: '#ffffff', textColor: '#2d6a4f', icon: '🧺' },
-            { label: 'ทีวี', color: '#2d6a4f', textColor: '#ffffff', icon: '📺' },
-            { label: 'ชุดโต๊ะอาหาร', color: '#ffffff', textColor: '#2d6a4f', icon: '🍽️' },
-            { label: 'เตียงนอน', color: '#2d6a4f', textColor: '#ffffff', icon: '🛏️' }
+        const rawPrizes = [
+            {no:"1", text:"ชุดเฟอร์นิเจอร์\nห้องนอน", img:"https://lh3.googleusercontent.com/u/0/d/1Ql_aDFN0ntGbDpDW006tgfmQGzYLpAz-"},
+            {no:"2", text:"แอร์ 9,000 BTU", img:"https://lh3.googleusercontent.com/u/0/d/1z8EjO_Rm6nTt2Q4srDrUGJuzANJ557D-"},
+            {no:"3", text:"โซฟา", img:"https://lh3.googleusercontent.com/u/0/d/1NR3c2b_WpWcvRVkFQoktWfoBEElVF_XU"},
+            {no:"4", text:"โต๊ะรับประทาน\nอาหาร", img:"https://lh3.googleusercontent.com/u/0/d/1G8-8lCWhCU1Vva7RFa2F1n2lYTdFtKH7"},
+            {no:"5", text:"ผ้าม่านทั้งหลัง", img:"https://lh3.googleusercontent.com/u/0/d/1Jp8I3vckpuQ3sUuWTTgnNjRc7hQRgs_l"},
+            {no:"6", text:"ส่วนลด\n20,000.-", fullText:"ส่วนลดเงินสด 20,000 บาท", img:"https://lh3.googleusercontent.com/u/0/d/1Lq6JuSmpXYu0EduuS4-TWYpHYY1yQ63v"},
+            {no:"7", text:"ทีวี 55 นิ้ว", img:"https://lh3.googleusercontent.com/u/0/d/1lQTqCGZxMgDwjnQIlQnVWryzQYNPUJi0"},
+            {no:"8", text:"ตู้เย็น 6.4 คิว", fullText:"ตู้เย็น 6.4 คิว 2 ประตู", img:"https://lh3.googleusercontent.com/u/0/d/1jDQviAtim4_D4g6WlfpcZhDjoWhVs5ON"}
         ];
+
+        const prizes = rawPrizes.map((p, i) => ({
+            label: p.text,
+            fullLabel: p.fullText || p.text,
+            img: p.img,
+            color: i % 2 === 0 ? '#ffffff' : '#2d6a4f',
+            textColor: i % 2 === 0 ? '#2d6a4f' : '#ffffff',
+            imgObj: null // Placeholder for image object
+        }));
+
+        // --- Preload Images for Wheel ---
+        let loadedImagesCount = 0;
+        function preloadImages() {
+            prizes.forEach(prize => {
+                const img = new Image();
+                img.crossOrigin = "Anonymous"; // Enable CORS for pixel manipulation
+                img.src = prize.img;
+                img.onload = () => {
+                    loadedImagesCount++;
+                    if (loadedImagesCount === prizes.length) {
+                        drawWheel(); // Redraw once all images are loaded
+                    }
+                };
+                img.onerror = () => {
+                     // Fallback if image fails, count it anyway so we don't hang
+                    loadedImagesCount++;
+                }
+                prize.imgObj = img;
+            });
+        }
+        
+        // ฟังก์ชันสำหรับตัดพื้นหลังสีขาวออกจากรูปภาพ
+        function getTransparentImageSrc(imgObj) {
+            const canvas = document.createElement('canvas');
+            const size = 150; // Resolution for the result card image
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(imgObj, 0, 0, size, size);
+            
+            try {
+                const imageData = ctx.getImageData(0, 0, size, size);
+                const data = imageData.data;
+                for (let j = 0; j < data.length; j += 4) {
+                    const r = data[j];
+                    const g = data[j + 1];
+                    const b = data[j + 2];
+                    // Threshold for white (adjust as needed, e.g., > 240)
+                    if (r > 240 && g > 240 && b > 240) {
+                        data[j + 3] = 0; // Set alpha to 0
+                    }
+                }
+                ctx.putImageData(imageData, 0, 0);
+                return canvas.toDataURL();
+            } catch (e) {
+                return imgObj.src;
+            }
+        }
 
         // --- Navigation Logic ---
         function navigateTo(target) {
@@ -705,8 +875,21 @@
             alertModal.classList.remove('flex');
         }
 
-        function showSuccess(msg) {
+        function showSuccess(msg, imgSrc = null, callback = null) {
             document.getElementById('successMessage').innerText = msg;
+            const imgEl = document.getElementById('successImage');
+            const iconEl = document.getElementById('successIcon');
+
+            if (imgSrc) {
+                imgEl.src = imgSrc;
+                imgEl.classList.remove('hidden');
+                iconEl.classList.add('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+                iconEl.classList.remove('hidden');
+            }
+
+            successCallback = callback;
             const sModal = document.getElementById('successModal');
             sModal.classList.remove('hidden');
             sModal.classList.add('flex');
@@ -716,6 +899,10 @@
             const sModal = document.getElementById('successModal');
             sModal.classList.add('hidden');
             sModal.classList.remove('flex');
+            if (successCallback) {
+                successCallback();
+                successCallback = null;
+            }
         }
 
         async function handleLogin() {
@@ -781,14 +968,65 @@
                 ctx.translate(centerX, centerY);
                 ctx.rotate(angle + sliceAngle / 2);
                 
-                ctx.font = "45px serif";
-                ctx.textAlign = "center";
-                ctx.fillText(prize.icon, radius * 0.45, 15);
-                
+                // Draw Image on Wheel with Background Removal
+                if (prize.imgObj && prize.imgObj.complete) {
+                     const imgSize = 90; // Slightly smaller to fit with text
+                     const imgX = radius - 250; // Move inward to separate from text
+                     const imgY = -imgSize/2;
+
+                     // Create temp canvas for transparency processing
+                     const tempCanvas = document.createElement('canvas');
+                     tempCanvas.width = imgSize;
+                     tempCanvas.height = imgSize;
+                     const tempCtx = tempCanvas.getContext('2d');
+                     
+                     // Draw original image to temp canvas
+                     tempCtx.drawImage(prize.imgObj, 0, 0, imgSize, imgSize);
+                     
+                     try {
+                         // Get image data
+                         const imageData = tempCtx.getImageData(0, 0, imgSize, imgSize);
+                         const data = imageData.data;
+                         
+                         // Loop through pixels to remove white background
+                         for (let j = 0; j < data.length; j += 4) {
+                             const r = data[j];
+                             const g = data[j + 1];
+                             const b = data[j + 2];
+                             // Threshold for white (adjust as needed, e.g., > 240)
+                             if (r > 240 && g > 240 && b > 240) {
+                                 data[j + 3] = 0; // Set alpha to 0
+                             }
+                         }
+                         
+                         // Put modified data back
+                         tempCtx.putImageData(imageData, 0, 0);
+                         
+                         // Draw the processed image to the main canvas
+                         ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
+                     } catch (e) {
+                         // Fallback if CORS prevents pixel manipulation
+                         ctx.drawImage(prize.imgObj, imgX, imgY, imgSize, imgSize);
+                     }
+                }
+
+                // Text
                 ctx.textAlign = "right";
                 ctx.fillStyle = prize.textColor;
-                ctx.font = "bold 34px Kanit";
-                ctx.fillText(prize.label, radius - 50, 12);
+                ctx.font = "bold 20px Kanit";
+                
+                // Handle multiline
+                const lines = prize.label.split('\n');
+                if (lines.length > 1) {
+                     const lineHeight = 22;
+                     let startY = 8 - ((lines.length - 1) * lineHeight) / 2;
+                     lines.forEach((line, idx) => {
+                         ctx.fillText(line, radius - 20, startY + (idx * lineHeight));
+                     });
+                } else {
+                    ctx.fillText(prize.label, radius - 20, 8); 
+                }
+                
                 ctx.restore();
             });
 
@@ -813,19 +1051,42 @@
             isSpinning = true;
             spinBtn.disabled = true;
 
-            const spins = 8 + Math.floor(Math.random() * 5);
-            const extraDegrees = Math.floor(Math.random() * 360);
-            const totalRotation = (spins * 360) + extraDegrees;
+            // กำหนดเป้าหมายของรางวัลล่วงหน้าเพื่อป้องกันของซ้ำ
+            let targetIndex = Math.floor(Math.random() * prizes.length);
+            
+            // หากเป็นการหมุนครั้งที่ 2 ให้สุ่มใหม่จนกว่าจะไม่ซ้ำกับของเดิม
+            if (spinCount === 1) {
+                const firstPrizeLabel = currentSessionPrizes[0].label;
+                while (prizes[targetIndex].label === firstPrizeLabel) {
+                    targetIndex = Math.floor(Math.random() * prizes.length);
+                }
+            }
+
+            // คำนวณองศาให้หมุนไปตกที่ช่องที่สุ่มได้พอดี
+            const sliceAngle = 360 / prizes.length;
+            const targetAngle = (targetIndex + 0.5) * sliceAngle; 
+            
+            let targetDegrees = (630 - targetAngle) % 360;
+            if (targetDegrees < 0) targetDegrees += 360;
+            
+            // สุ่มตำแหน่งให้ตกในช่องย่อยไม่ให้ดูเป๊ะเกินไป (+/- 40% ของความกว้างช่อง)
+            const randomOffset = (Math.random() * 0.8 - 0.4) * sliceAngle; 
+            targetDegrees = (targetDegrees + randomOffset) % 360;
+            if (targetDegrees < 0) targetDegrees += 360;
+
+            const currentRemainder = currentRotation % 360;
+            let rotationDiff = targetDegrees - currentRemainder;
+            if (rotationDiff <= 0) rotationDiff += 360;
+
+            const spins = 8 + Math.floor(Math.random() * 5); // หมุนฟรี 8-12 รอบก่อนหยุด
+            const totalRotation = (spins * 360) + rotationDiff;
             
             currentRotation += totalRotation;
             canvas.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
                 isSpinning = false;
-                const actualDegrees = (currentRotation % 360);
-                const prizeIndex = Math.floor(((360 - (actualDegrees - 270)) % 360) / (360 / prizes.length));
-                
-                handleSpinResult(prizes[prizeIndex]);
+                handleSpinResult(prizes[targetIndex]);
                 createConfetti();
             }, 4100);
         }
@@ -834,12 +1095,29 @@
             spinCount++;
             currentSessionPrizes.push(prizeObj);
 
+            // ใช้รูปภาพที่ตัดพื้นหลังออกแล้ว (ถ้ามี)
+            let displayImg = prizeObj.img;
+            if (prizeObj.imgObj && prizeObj.imgObj.complete) {
+                displayImg = getTransparentImageSrc(prizeObj.imgObj);
+            }
+
             if (spinCount === 1) {
-                showSuccess('คุณได้รับ "' + prizeObj.label + '"\nเหลือสิทธิ์หมุนอีก 1 ครั้ง!');
-                spinBtn.disabled = false;
-                spinBtn.innerText = "หมุนครั้งที่ 2";
+                showSuccess(
+                    'ยินดีด้วย!\nคุณได้รับ "' + prizeObj.label + '"\nเหลือสิทธิ์หมุนอีก 1 ครั้ง',
+                    displayImg,
+                    () => {
+                         spinBtn.disabled = false;
+                         spinBtn.innerText = "หมุนครั้งที่ 2";
+                    }
+                );
             } else if (spinCount === 2) {
-                showFinalWheelResult();
+                 showSuccess(
+                    'ยินดีด้วย!\nคุณได้รับ "' + prizeObj.label + '"',
+                    displayImg,
+                    () => {
+                         showFinalWheelResult();
+                    }
+                );
             }
         }
 
@@ -850,15 +1128,38 @@
             document.getElementById('winnerNameDisplay').innerText = `ชื่อ: คุณ${userData.name}`;
             document.getElementById('winnerPhoneDisplay').innerText = `เบอร์ติดต่อ: ${userData.phone}`;
             
-            // จัดเรียงรายการของรางวัลเพื่อแสดงผล
-            const prizeText = currentSessionPrizes.map((p, index) => `${index + 1}. ${p.label}`).join('<br>');
-            const prizeIcons = currentSessionPrizes.map(p => p.icon).join(' ');
+            // Clear previous results
+            prizeResultContainer.innerHTML = '';
             
-            prizeDisplay.innerHTML = prizeText;
-            prizeDisplay.style.fontSize = '22px'; // ปรับขนาดฟอนต์ให้พอดีกับหลายรายการ
-            prizeDisplay.style.textAlign = 'left';
-            prizeDisplay.style.paddingLeft = '20px';
-            prizeIconBox.innerText = prizeIcons;
+            // Generate distinct Cards for each prize
+            currentSessionPrizes.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'prize-card';
+                
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'prize-card-img-wrapper';
+                
+                const img = document.createElement('img');
+                img.className = 'prize-card-img';
+                
+                // ใช้รูปภาพที่ตัดพื้นหลังออกแล้ว
+                if (p.imgObj && p.imgObj.complete) {
+                    img.src = getTransparentImageSrc(p.imgObj);
+                } else {
+                    img.src = p.img;
+                }
+                
+                imgWrapper.appendChild(img);
+                
+                const text = document.createElement('div');
+                text.className = 'prize-card-text';
+                text.innerText = p.fullLabel || p.label;
+                
+                card.appendChild(imgWrapper);
+                card.appendChild(text);
+                
+                prizeResultContainer.appendChild(card);
+            });
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -903,40 +1204,50 @@
             modal.classList.remove('flex');
         }
 
-        // แก้ไขปุ่มประวัติหน้าวงล้อ ให้แสดงใบสรุปรางวัลแทน
+        // แก้ไขปุ่มประวัติหน้าวงล้อ หากยังไม่มีประวัติ จะไม่แสดงแจ้งเตือน Error ใดๆ
         function showHistory() {
             if (claimedPromo === 'wheel') {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
-            } else {
-                showAlert('คุณยังไม่มีประวัติการรับรางวัล');
             }
         }
 
-        // ฟังก์ชันประวัติหน้าทำบุญขึ้นบ้านใหม่ ให้แสดงใบสรุปสิทธิ์
+        // ฟังก์ชันประวัติหน้าทำบุญขึ้นบ้านใหม่ หากยังไม่มีประวัติ จะไม่แสดงแจ้งเตือน Error ใดๆ
         function showHouseHistory() {
             if (claimedPromo === 'house') {
                 const hModal = document.getElementById('houseResultModal');
                 hModal.classList.remove('hidden');
                 hModal.classList.add('flex');
-            } else {
-                showAlert('คุณยังไม่มีประวัติการรับสิทธิ์ทำบุญขึ้นบ้านใหม่');
             }
         }
 
         function saveAsImage() {
             const area = document.getElementById('captureArea');
+            const input = area.querySelector('input'); // Find the input in the area
+            
+            // Create a temporary text element to replace input for capture
+            const textDisplay = document.createElement('div');
+            textDisplay.className = "w-full text-center text-[13px] font-semibold text-[#2d6a4f] py-2"; // Match input style
+            textDisplay.innerText = input.value || input.placeholder; // Show value or placeholder
+            
+            // Swap
+            input.classList.add('hidden');
+            input.parentNode.insertBefore(textDisplay, input);
+
             const originalShadow = area.style.boxShadow;
             area.style.boxShadow = 'none';
 
-            // ซ่อนปุ่ม input ก่อนถ่ายและเปลี่ยนเป็นข้อความ (ถ้าต้องการให้สวย) แต่ในที่นี้ input background เป็น transparent
             html2canvas(area, { 
                 backgroundColor: '#ffffff', 
-                scale: 2, 
+                scale: 3, // Increase scale for better quality
                 logging: false,
                 useCORS: true
             }).then(canvas => {
+                // Revert styles/elements
                 area.style.boxShadow = originalShadow;
+                textDisplay.remove();
+                input.classList.remove('hidden');
+
                 const link = document.createElement('a');
                 link.download = `Winner_${userData.phone}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
@@ -946,16 +1257,30 @@
         
         function saveHouseAsImage() {
             const area = document.getElementById('captureHouseArea');
+            const input = area.querySelector('input'); // Find the input in the area
+            
+            // Create a temporary text element to replace input for capture
+            const textDisplay = document.createElement('div');
+            textDisplay.className = "w-full text-center text-[13px] font-semibold text-[#2d6a4f] py-2"; // Match input style
+            textDisplay.innerText = input.value || input.placeholder; // Show value or placeholder
+            
+            // Swap
+            input.classList.add('hidden');
+            input.parentNode.insertBefore(textDisplay, input);
+
             const originalShadow = area.style.boxShadow;
             area.style.boxShadow = 'none';
 
             html2canvas(area, { 
                 backgroundColor: '#ffffff', 
-                scale: 2, 
+                scale: 3, 
                 logging: false,
                 useCORS: true
             }).then(canvas => {
                 area.style.boxShadow = originalShadow;
+                textDisplay.remove();
+                input.classList.remove('hidden');
+
                 const link = document.createElement('a');
                 link.download = `HouseBlessing_${userData.phone}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
@@ -1058,8 +1383,15 @@
 
         spinBtn.addEventListener('click', spin);
         window.onload = function() {
+            preloadImages(); // Start loading images
             drawWheel();
             setLineLinks();
+
+            // Intro Animation Logic
+            setTimeout(() => {
+                const intro = document.getElementById('introPage');
+                intro.classList.add('fade-out');
+            }, 2000); // Show intro for 2 seconds
         };
     </script>
 </body>
