@@ -9,8 +9,11 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="March Lucky Home - จังหวะดี ของการมีบ้าน">
     <meta property="og:description" content="ลุ้นรับของรางวัลเฟอร์นิเจอร์ เครื่องใช้ไฟฟ้า และโปรโมชั่นทำบุญขึ้นบ้านใหม่ฟรี!">
-    <!-- ใส่ลิงก์รูปภาพพรีวิว (วงล้อด้านซ้าย/พระด้านขวา) ที่คุณต้องการที่นี่ -->
-    <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1mA5NdYiuxYuO7_BetQH7TvAB9gHdEOxa">
+    
+    <!-- แก้ไข: กำหนดขนาดรูปภาพเพื่อให้ Facebook แสดงผลเต็มใบ (1200x630) -->
+    <meta property="og:image" content="https://lh3.googleusercontent.com/d/1mA5NdYiuxYuO7_BetQH7TvAB9gHdEOxa">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -1602,17 +1605,18 @@
             if (!isDesktop()) {
                 const btn1 = document.getElementById('downloadBtn');
                 const btn2 = document.getElementById('houseDownloadBtn');
+                // Creating a more aggressive visual cue with yellow color and border
                 const newText = `⚠️ <span class="animate-pulse">อย่าลืมแคปรูปภาพหน้าจอ</span> ⚠️`;
                 
                 if (btn1) {
                     btn1.innerHTML = newText;
                     btn1.classList.remove('text-white');
-                    btn1.classList.add('text-yellow-400', 'font-black', 'text-lg'); 
+                    btn1.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300'); 
                 }
                 if (btn2) {
                     btn2.innerHTML = newText;
                     btn2.classList.remove('text-white');
-                    btn2.classList.add('text-yellow-400', 'font-black', 'text-lg');
+                    btn2.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300');
                 }
             }
         }
