@@ -9,8 +9,15 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="March Lucky Home - จังหวะดี ของการมีบ้าน">
     <meta property="og:description" content="ลุ้นรับของรางวัลเฟอร์นิเจอร์ เครื่องใช้ไฟฟ้า และโปรโมชั่นทำบุญขึ้นบ้านใหม่ฟรี!">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="Startup Up Real Estate">
     
-    <!-- แก้ไข: กำหนดขนาดรูปภาพเพื่อให้ Facebook แสดงผลเต็มใบ (1200x630) -->
+    <!-- แก้ไข: เพิ่ม Twitter Card เพื่อบังคับแสดงรูปใหญ่ และกำหนดขนาดรูป -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="March Lucky Home - จังหวะดี ของการมีบ้าน">
+    <meta name="twitter:description" content="ลุ้นรับของรางวัลเฟอร์นิเจอร์ เครื่องใช้ไฟฟ้า และโปรโมชั่นทำบุญขึ้นบ้านใหม่ฟรี!">
+    <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/1mA5NdYiuxYuO7_BetQH7TvAB9gHdEOxa">
+
     <meta property="og:image" content="https://lh3.googleusercontent.com/d/1mA5NdYiuxYuO7_BetQH7TvAB9gHdEOxa">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -1611,12 +1618,14 @@
                 if (btn1) {
                     btn1.innerHTML = newText;
                     btn1.classList.remove('text-white');
-                    btn1.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300'); 
+                    btn1.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300', 'pointer-events-none'); 
+                    btn1.removeAttribute('onclick');
                 }
                 if (btn2) {
                     btn2.innerHTML = newText;
                     btn2.classList.remove('text-white');
-                    btn2.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300');
+                    btn2.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300', 'pointer-events-none');
+                    btn2.removeAttribute('onclick');
                 }
             }
         }
