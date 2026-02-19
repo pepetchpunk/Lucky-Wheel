@@ -84,7 +84,7 @@
         .wheel-stand {
             width: 60%;
             height: 80px;
-            background-color: #2d6a4f;
+            background-color: #083600;
             clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
             margin-top: -30px;
             z-index: 10;
@@ -94,7 +94,7 @@
             justify-content: flex-end;
             padding-bottom: 15px;
             box-shadow: inset 0 10px 20px rgba(0,0,0,0.3);
-            border-bottom: 6px solid #1b4332;
+            border-bottom: 6px solid #083600;
         }
 
         .pointer {
@@ -123,7 +123,8 @@
             align-items: center;
             justify-content: center;
             z-index: 30;
-            border: 4px solid #2d6a4f;
+            /* แก้ไข: เปลี่ยนขอบโลโก้ตรงกลางเป็นสีขาว */
+            border: 4px solid #ffffff; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             overflow: hidden;
         }
@@ -155,7 +156,7 @@
 
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #2d6a4f;
+            border-top: 4px solid #083600;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -198,7 +199,7 @@
             border-radius: 9999px;
             font-weight: 700;
             transition: all 0.3s;
-            box-shadow: 0 10px 25px rgba(45, 106, 79, 0.3);
+            box-shadow: 0 10px 25px rgba(8, 54, 0, 0.3);
         }
 
         #spinBtn:active {
@@ -222,14 +223,14 @@
         .capture-icon-circle {
             width: 110px;
             height: 110px;
-            background: #f0fdf4;
+            background: #f9fafb;
             border-radius: 50%;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 55px;
-            border: 2px solid #dcfce7;
+            border: 2px solid #e5e7eb;
         }
 
         .capture-title {
@@ -250,9 +251,9 @@
 
         .capture-prize-box {
             width: 100%;
-            border: 2px dashed #2d6a4f;
+            border: 2px dashed #083600;
             border-radius: 20px;
-            background-color: #f7fee7;
+            background-color: #f9fafb;
             padding: 22px 15px;
             margin-bottom: 25px;
             display: flex;
@@ -262,7 +263,7 @@
 
         .capture-prize-label {
             font-size: 13px;
-            color: #2d6a4f;
+            color: #083600;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -271,7 +272,7 @@
         .capture-prize-value {
             font-size: 28px;
             font-weight: 700;
-            color: #2d6a4f;
+            color: #083600;
             line-height: 1.1;
         }
 
@@ -292,7 +293,7 @@
             text-align: center;
             transition: all 0.3s;
             cursor: pointer;
-            border-bottom: 8px solid #2d6a4f;
+            border-bottom: 8px solid #083600;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .selection-card:active {
@@ -301,13 +302,14 @@
         .icon-bg {
             width: 80px;
             height: 80px;
-            background: #f0fdf4;
+            background: #f9fafb;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 40px;
             margin: 0 auto 16px;
+            overflow: hidden; 
         }
 
         /* --- Image Preview Box --- */
@@ -340,8 +342,8 @@
         }
         .prize-card {
             flex: 1;
-            background: #f0fdf4;
-            border: 2px solid #dcfce7;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
             border-radius: 16px;
             padding: 12px;
             display: flex;
@@ -352,7 +354,7 @@
         .prize-card-img-wrapper {
             width: 50px;
             height: 50px;
-            background: transparent; /* แก้ไข: เปลี่ยนเป็นใสเพื่อให้เห็นพื้นหลังการ์ด */
+            background: transparent; 
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -369,9 +371,97 @@
         .prize-card-text {
             font-size: 13px;
             font-weight: 700;
-            color: #1b4332;
+            color: #083600;
             line-height: 1.2;
         }
+
+        /* Monk Animation CSS */
+        .monk-anim-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #f9fafb;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .monk-character {
+            position: absolute;
+            bottom: 15px;
+            width: 30px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: walkRight 5s linear infinite;
+        }
+        .monk-character.delay {
+            animation-delay: 1.5s;
+            opacity: 0; 
+            animation-name: walkRightDelayed;
+        }
+        
+        .monk-head {
+            width: 20px;
+            height: 20px;
+            background-color: #ffdbac; 
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        /* Eyes */
+        .monk-head::before, .monk-head::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            width: 2px;
+            height: 2px;
+            background: #333;
+            border-radius: 50%;
+        }
+        .monk-head::before { left: 6px; }
+        .monk-head::after { right: 6px; }
+
+        .monk-body {
+            width: 28px;
+            height: 25px;
+            background-color: #fb923c; 
+            border-radius: 15px 15px 5px 5px;
+            margin-top: -5px;
+            z-index: 1;
+            position: relative;
+        }
+        /* Robe Detail */
+        .monk-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 28px;
+            height: 25px;
+            background: linear-gradient(110deg, transparent 40%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 100%);
+            border-radius: 15px 15px 5px 5px;
+        }
+
+        @keyframes walkRight {
+            0% { transform: translateX(-60px) translateY(0); opacity: 1; }
+            25% { transform: translateX(-15px) translateY(-3px); }
+            50% { transform: translateX(30px) translateY(0); }
+            75% { transform: translateX(75px) translateY(-3px); }
+            100% { transform: translateX(120px) translateY(0); opacity: 1; }
+        }
+        
+        @keyframes walkRightDelayed {
+            0% { transform: translateX(-60px) translateY(0); opacity: 0; }
+            1% { opacity: 1; }
+            25% { transform: translateX(-15px) translateY(-3px); }
+            50% { transform: translateX(30px) translateY(0); }
+            75% { transform: translateX(75px) translateY(-3px); }
+            100% { transform: translateX(120px) translateY(0); opacity: 1; }
+        }
+
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -379,16 +469,16 @@
     <!-- Intro Animation Page -->
     <div id="introPage" class="fixed inset-0 bg-[#f3f4f6] z-[200] flex flex-col items-center justify-center">
         <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-28 mb-8 animate-pulse object-contain">
-        <h1 class="text-3xl font-bold text-[#2d6a4f] text-center px-4 mb-3 drop-shadow-sm leading-tight">
+        <h1 class="text-3xl font-bold text-[#083600] text-center px-4 mb-3 drop-shadow-sm leading-tight">
             March Lucky Home
         </h1>
-        <p class="text-xl text-[#1b4332] font-medium text-center">จังหวะดี ของการมีบ้าน</p>
+        <p class="text-xl text-[#083600] font-medium text-center">จังหวะดี ของการมีบ้าน</p>
     </div>
 
     <!-- 0. หน้าเลือกบริการ (New) -->
     <div id="selectionPage" class="page-overlay hidden">
         <!-- เพิ่มปุ่มเงื่อนไขที่มุมซ้ายบน -->
-        <button onclick="toggleInfo('conditionModal')" class="absolute top-5 left-5 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-200 text-xs font-bold text-[#2d6a4f] z-50 hover:bg-gray-50 transition-all active:scale-95">
+        <button onclick="toggleInfo('conditionModal')" class="absolute top-5 left-5 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-200 text-xs font-bold text-[#083600] z-50 hover:bg-gray-50 transition-all active:scale-95">
             เงื่อนไข
         </button>
 
@@ -396,7 +486,7 @@
         
         <!-- เพิ่มชื่อแคมเปญหน้าเลือก -->
         <div class="text-center mb-6">
-            <h2 class="text-xl font-bold text-[#2d6a4f]">March Lucky Home</h2>
+            <h2 class="text-xl font-bold text-[#083600]">March Lucky Home</h2>
             <p class="text-base text-gray-500 font-medium">จังหวะดี ของการมีบ้าน</p>
         </div>
 
@@ -404,30 +494,52 @@
         <div class="flex flex-col gap-6 w-full items-center">
             <!-- กล่องที่ 1: สุ่มวงล้อ -->
             <div onclick="navigateTo('luckyWheel')" class="selection-card">
-                <!-- แก้ไข: ปรับปรุงวงล้อจำลองให้หมุนตลอดเวลา -->
-                <div class="icon-bg" style="background: none; padding: 0; overflow: hidden; border: 4px solid #1b4332; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative;">
+                <!-- แก้ไข: ลบขอบสีทองออก ตามคำขอ (border: none) -->
+                <div class="icon-bg" style="background: none; padding: 0; overflow: hidden; border: none; position: relative;">
                     
                     <!-- ส่วนวงล้อที่หมุน (ใช้ animation: spin-slow) -->
                     <div style="width: 100%; height: 100%; position: absolute; inset: 0; animation: spin-slow 10s linear infinite;">
-                         <!-- CSS Wheel (8 Segments) -->
-                         <div style="width: 100%; height: 100%; border-radius: 50%; background: repeating-conic-gradient(#2d6a4f 0deg 45deg, #ffffff 45deg 90deg); position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);"></div>
+                         <!-- ปรับสีวงล้อหน้าเลือกให้เป็นเขียวเข้มสลับขาว (ตามที่ขอ) -->
+                         <div style="width: 100%; height: 100%; border-radius: 50%; 
+                         background: repeating-conic-gradient(
+                            #083600 0deg 45deg, 
+                            #ffffff 45deg 90deg
+                         ); 
+                         border: 2px solid #083600;
+                         position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);"></div>
                     </div>
 
                     <!-- ส่วนที่อยู่กับที่ (โลโก้ตรงกลาง) -->
-                    <div style="position: absolute; inset: 0; margin: auto; width: 55%; height: 55%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid #1b4332; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10;">
-                         <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" style="width: 75%; height: 75%; object-fit: contain;">
+                    <!-- ปรับขนาดจุดหมุนลงจาก 55% เป็น 34% เพื่อแก้ปัญหาดูเหมือนห่วงยาง -->
+                    <div style="position: absolute; inset: 0; margin: auto; width: 34%; height: 34%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10;">
+                         <!-- ปรับขนาดโลโก้ให้เต็มพื้นที่วงกลมเล็ก -->
+                         <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" style="width: 85%; height: 85%; object-fit: contain;">
                     </div>
 
-                    <!-- ส่วนที่อยู่กับที่ (เข็ม) เปลี่ยนสีเป็น #e63946 ตามที่ขอ -->
+                    <!-- ส่วนที่อยู่กับที่ (เข็ม) -->
                     <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 16px; height: 20px; background: #e63946; clip-path: polygon(50% 100%, 0 0, 100% 0); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); z-index: 20;"></div>
                 </div>
-                <h3 class="text-xl font-bold text-[#2d6a4f]">สุ่มวงล้อรับของรางวัล</h3>
+                <h3 class="text-xl font-bold text-[#083600]">สุ่มวงล้อรับของรางวัล</h3>
                 <p class="text-sm text-gray-400 mt-2">ทางบริษัทแจกของรางวัลฟรี 2 รายการ</p>
             </div>
             <!-- กล่องที่ 2: ทำบุญขึ้นบ้านใหม่ -->
-            <div onclick="navigateTo('houseBlessing')" class="selection-card" style="border-bottom-color: #2d6a4f;">
-                <div class="icon-bg" style="background-color: #f0fdf4;">🏠</div>
-                <h3 class="text-xl font-bold text-[#2d6a4f]">แพ็กเกจทำบุญขึ้นบ้านใหม่</h3>
+            <div onclick="navigateTo('houseBlessing')" class="selection-card" style="border-bottom-color: #083600;">
+                <!-- แก้ไข: ใส่ Animation พระเดินแทน Emoji -->
+                <div class="icon-bg" style="background-color: #f9fafb; padding: 0;">
+                    <div class="monk-anim-wrapper">
+                        <!-- Monk 1 -->
+                        <div class="monk-character">
+                            <div class="monk-head"></div>
+                            <div class="monk-body"></div>
+                        </div>
+                        <!-- Monk 2 (Delayed) -->
+                        <div class="monk-character delay">
+                            <div class="monk-head"></div>
+                            <div class="monk-body"></div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-[#083600]">แพ็กเกจทำบุญขึ้นบ้านใหม่</h3>
                 <p class="text-sm text-gray-400 mt-2">ทางบริษัทจัดงานทำบุญขึ้นบ้านใหม่ให้ฟรี</p>
             </div>
         </div>
@@ -435,14 +547,14 @@
 
     <!-- 1. กติกา (เดิม) -->
     <div id="termsPage" class="page-overlay">
-        <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl max-w-sm w-full border-b-[10px] border-[#2d6a4f]">
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl max-w-sm w-full border-b-[10px] border-[#083600]">
             <!-- เพิ่มชื่อแคมเปญหน้ากติกา -->
             <div class="text-center mb-6 border-b border-gray-100 pb-4">
-                <h3 class="text-xl font-bold text-[#2d6a4f]">March Lucky Home</h3>
+                <h3 class="text-xl font-bold text-[#083600]">March Lucky Home</h3>
                 <p class="text-sm text-gray-500">จังหวะดี ของการมีบ้าน</p>
             </div>
 
-            <h2 class="text-2xl font-bold text-[#2d6a4f] mb-4 text-center">กติกาการร่วมสนุก</h2>
+            <h2 class="text-2xl font-bold text-[#083600] mb-4 text-center">กติกาการร่วมสนุก</h2>
             <div class="text-gray-600 space-y-4 mb-8 overflow-y-auto max-h-[40vh] pr-2 text-sm leading-relaxed">
                 <p>1. ผู้เข้าร่วมกิจกรรมต้องลงทะเบียนข้อมูลให้ครบถ้วน</p>
                 <p>2. จำกัดสิทธิ์ 1 ท่าน ต่อ 1 สิทธิ์เท่านั้น</p>
@@ -450,7 +562,7 @@
                 <p>4. <b>บันทึกรูปภาพหน้าจอ</b> เพื่อเป็นหลักฐานในการรับรางวัล</p>
                 <p>5. ติดต่อรับรางวัลผ่าน LINE Official ของบริษัท</p>
             </div>
-            <button onclick="acceptTerms()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#1b4332] shadow-lg transition-all active:scale-95">
+            <button onclick="acceptTerms()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#083600] shadow-lg transition-all active:scale-95">
                 ตกลงและเริ่มกิจกรรม
             </button>
         </div>
@@ -458,25 +570,25 @@
 
     <!-- 2. ลงทะเบียน -->
     <div id="loginPage" class="page-overlay hidden">
-        <div class="bg-white p-7 rounded-[2.5rem] shadow-2xl max-w-sm w-full border-b-[10px] border-[#2d6a4f]">
+        <div class="bg-white p-7 rounded-[2.5rem] shadow-2xl max-w-sm w-full border-b-[10px] border-[#083600]">
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-[#2d6a4f]">ลงทะเบียน</h2>
+                <h2 class="text-2xl font-bold text-[#083600]">ลงทะเบียน</h2>
                 <p class="text-xs text-gray-400 mt-1">กรุณากรอกข้อมูลเพื่อใช้รับรางวัล</p>
             </div>
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 mb-1.5 ml-1">ชื่อ-นามสกุล</label>
-                    <input type="text" id="userName" placeholder="ชื่อของคุณ" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2d6a4f] transition-all text-sm">
+                    <input type="text" id="userName" placeholder="ชื่อของคุณ" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#083600] transition-all text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 mb-1.5 ml-1">เบอร์โทรศัพท์</label>
-                    <input type="tel" id="userPhone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="08XXXXXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2d6a4f] transition-all text-sm">
+                    <input type="tel" id="userPhone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="08XXXXXXXX" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#083600] transition-all text-sm">
                 </div>
                 <div id="loginStatus" class="hidden text-center py-1">
                     <div class="loader"></div>
                     <span class="text-xs text-gray-500">กำลังตรวจสอบข้อมูล...</span>
                 </div>
-                <button id="loginBtn" onclick="handleLogin()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#1b4332] shadow-lg transition-all active:scale-95 mt-2">
+                <button id="loginBtn" onclick="handleLogin()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold text-lg hover:bg-[#083600] shadow-lg transition-all active:scale-95 mt-2">
                     เข้าสู่กิจกรรม
                 </button>
             </div>
@@ -489,44 +601,49 @@
             <div class="flex justify-between items-center mb-8">
                 <button onclick="goBackToSelectionFromHouse()" class="text-gray-400 font-bold">← กลับหน้าหลัก</button>
                 <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-8">
-                <button onclick="showHouseHistory()" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
+                <button onclick="showHouseHistory()" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#083600]">
                     ประวัติ
                 </button>
             </div>
 
             <div class="flex-1 overflow-y-auto pb-24">
-                <h2 class="text-2xl font-bold text-[#2d6a4f] mb-2">บริการทำบุญขึ้นบ้านใหม่</h2>
-                <p class="text-gray-500 text-sm mb-6">ออกแบบงานทำบุญในสไตล์ที่คุณต้องการ และเลือกแพ็กเกจที่เหมาะสมสำหรับบ้านใหม่ของคุณ</p>
+                <h2 class="text-2xl font-bold text-[#083600] mb-2">บริการทำบุญขึ้นบ้านใหม่</h2>
+                <p class="text-gray-500 text-sm mb-6">บริษัท Startup Up Real Estate จัดแพ็กเกจทำบุญขึ้นบ้านใหม่ให้ฟรี ไม่มีค่าใช้จ่ายเพิ่มเติม</p>
                 
                 <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">อัปโหลดรูปภาพบ้าน/พื้นที่</label>
-                        <div class="image-preview-container" onclick="document.getElementById('fileInput').click()">
-                            <img id="houseBlessingImage" class="hidden">
-                            <div id="uploadPlaceholder" class="text-center">
-                                <span class="text-4xl">📸</span>
-                                <p class="text-xs text-gray-400 mt-2">คลิกเพื่อเพิ่มรูปภาพ</p>
-                            </div>
-                        </div>
-                        <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="previewImage(event)">
+                    <!-- Image Replacement for Upload Section -->
+                    <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                        <img src="https://lh3.googleusercontent.com/d/1SeUJgnwbfwhPU76QVysEhngnDu2K9wEI" alt="House Blessing Promotion" class="w-full h-auto object-cover">
+                    </div>
+                    
+                    <!-- EDIT: เปลี่ยน Link เป็นข้อความ 🔻กดด้านล่าง🔻 และลิงก์ด้านล่าง -->
+                    <div class="mt-2 text-center flex flex-col items-center">
+                        <span class="text-xs text-[#083600] animate-bounce mb-1 font-bold">🔻กดด้านล่าง🔻</span>
+                        <a href="https://drive.google.com/file/d/10sPXfXNfpey5aW0q_qBpkb41rjY4Djf3/view?usp=sharing" target="_blank" class="text-[#083600] font-bold underline text-sm hover:text-green-700 transition-colors">
+                            ดูรายละเอียดแพ็กเกจเพิ่มเติม
+                        </a>
                     </div>
 
-                    <div class="bg-[#f0fdf4] p-4 rounded-2xl border border-[#dcfce7]">
-                        <h4 class="font-bold text-[#1b4332] text-sm mb-2">จุดเด่นบริการของเรา</h4>
-                        <ul class="text-xs text-[#2d6a4f] space-y-1">
-                            <li>• จัดหาอุปกรณ์สงฆ์ครบชุด</li>
-                            <li>• นิมนต์พระและรถรับส่ง</li>
-                            <li>• ออกแบบสถานที่แบบ 3D เบื้องต้น</li>
-                            <li>• ทีมงานดูแลตลอดพิธีการ</li>
+                    <div class="bg-[#f9fafb] p-4 rounded-2xl border border-[#e5e7eb]">
+                        <h4 class="font-bold text-[#083600] text-sm mb-2">จุดเด่นบริการของเรา</h4>
+                        <ul class="text-xs text-[#083600] space-y-1">
+                            <li>• รองรับแขกรวมพระสงฆ์ 30 ท่าน</li>
+                            <li>• อาหารดาว 5 อย่าง (รสเลิศ จัดสวยงาม)</li>
+                            <li>• ขนมหวาน 1 อย่าง</li>
+                            <li>• ผลไม้ตามฤดูกาล</li>
+                            <li>• น้ำสมุนไพร 1 อย่าง</li>
+                            <li>• พร้อมข้าวหอมมะลิ, น้ำเปล่า , น้ำแข็ง</li>
+                            <li>• บริษัทฯจัดการให้ครบทุกขั้นตอน (สะดวกสบายที่สุด)</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="fixed bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100 max-w-[420px] mx-auto">
-                <button id="claimHouseBtn" onclick="initClaimHouse()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all mb-3">
+                <button id="claimHouseBtn" onclick="initClaimHouse()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all mb-3">
                     🎁 กดรับสิทธิ์ทำบุญขึ้นบ้านใหม่
                 </button>
+                <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE -->
                 <a id="houseLineBtn" href="#" target="_blank" class="hidden house-line-btn items-center justify-center gap-2 w-full bg-[#06C755] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95">
                     <span>🟢</span> รับเช็ตทำบุญขึ้นบ้านใหม่ฟรีทาง LINE
                 </a>
@@ -542,7 +659,7 @@
             </div>
             <div class="flex justify-between items-center mt-2 mb-2">
                 <!-- แก้ไข: เปลี่ยนข้อความปุ่ม -->
-                <button onclick="toggleInfo('prizesModal')" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
+                <button onclick="toggleInfo('prizesModal')" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#083600]">
                     รายการของรางวัล
                 </button>
 
@@ -550,7 +667,7 @@
                 <div class="bg-white/90 px-5 py-2 rounded-2xl shadow-sm border border-gray-100">
                     <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="h-8 w-auto">
                 </div>
-                <button onclick="showHistory()" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#2d6a4f]">
+                <button onclick="showHistory()" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#083600]">
                     ประวัติ
                 </button>
             </div>
@@ -568,9 +685,10 @@
         </div>
 
         <div class="action-area">
-            <button id="spinBtn" class="bg-[#2d6a4f] hover:bg-[#1b4332] text-white border-b-4 border-[#1b4332]">
+            <button id="spinBtn" class="bg-[#083600] hover:bg-[#083600] text-white border-b-4 border-[#083600]">
                 เริ่มหมุนวงล้อ
             </button>
+            <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE -->
             <a id="mainLineBtn" href="#" target="_blank" class="hidden flex items-center justify-center gap-2 w-full max-w-[260px] bg-[#06C755] text-white py-3 rounded-full text-sm font-bold shadow-xl animate-bounce">
                 <span>🟢</span> ติดต่อรับรางวัลทาง LINE
             </a>
@@ -599,18 +717,21 @@
                 
                 <!-- เพิ่มช่องใส่โครงการในใบสรุปวงล้อ -->
                 <div class="mt-3 w-full border-t border-dashed border-gray-200 pt-3">
-                    <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#2d6a4f] focus:outline-none bg-transparent placeholder-gray-300">
+                    <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#083600] focus:outline-none bg-transparent placeholder-gray-300">
                 </div>
             </div>
 
             <div class="mt-6 w-full flex flex-col gap-3">
-                <button id="downloadBtn" onclick="saveAsImage()" class="w-full bg-[#2d6a4f] text-white py-3.5 rounded-2xl font-bold shadow-lg hover:bg-[#1b4332] transition-all flex items-center justify-center gap-2 active:scale-95">
+                <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
+                <button id="downloadBtn" onclick="saveAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
+                <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE (คงไว้ตามเดิมเพื่อให้เด่น) -->
                 <a id="resultLineBtn" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#06C755] text-white py-3.5 rounded-2xl font-bold shadow-lg active:scale-95">
                     <span>🟢</span> ติดต่อทาง LINE
                 </a>
-                <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-[#2d6a4f] text-white py-4 rounded-2xl font-bold text-lg opacity-50 cursor-not-allowed" disabled>
+                <!-- EDIT: ปรับปุ่มตกลงให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
+                <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold text-lg opacity-50 cursor-not-allowed hover:bg-[#062b00]" disabled>
                     ตกลง
                 </button>
             </div>
@@ -622,13 +743,13 @@
     <div id="houseResultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md">
         <div class="max-w-sm w-full flex flex-col items-center">
             <div id="captureHouseArea">
-                <div class="w-[110px] h-[110px] bg-[#f0fdf4] rounded-full mb-5 flex items-center justify-center text-[55px] border-2 border-[#dcfce7]">🏠</div>
+                <div class="w-[110px] h-[110px] bg-[#f9fafb] rounded-full mb-5 flex items-center justify-center text-[55px] border-2 border-[#e5e7eb]">🏠</div>
                 <h3 class="capture-title">รับสิทธิ์สำเร็จ!</h3>
                 <p id="houseWinnerNameDisplay" class="capture-subtitle"></p>
                 <p id="houseWinnerPhoneDisplay" class="capture-subtitle last"></p>
-                <div class="w-full border-2 border-dashed border-[#2d6a4f] rounded-[20px] bg-[#f7fee7] p-[22px_15px] mb-[25px] flex flex-col gap-[6px]">
-                    <span class="text-[13px] text-[#2d6a4f] font-normal uppercase tracking-[0.05em]">รายการที่คุณได้รับ</span>
-                    <ul class="text-[15px] font-bold text-[#1b4332] leading-relaxed text-left pl-6 list-disc">
+                <div class="w-full border-2 border-dashed border-[#083600] rounded-[20px] bg-[#f9fafb] p-[22px_15px] mb-[25px] flex flex-col gap-[6px]">
+                    <span class="text-[13px] text-[#083600] font-normal uppercase tracking-[0.05em]">รายการที่คุณได้รับ</span>
+                    <ul class="text-[15px] font-bold text-[#083600] leading-relaxed text-left pl-6 list-disc">
                         <li>จัดหาอุปกรณ์สงฆ์ครบชุด</li>
                         <li>นิมนต์พระและรถรับส่ง</li>
                         <li>ออกแบบสถานที่แบบ 3D</li>
@@ -639,15 +760,17 @@
                 
                 <!-- เพิ่มช่องใส่โครงการในใบสรุปทำบุญขึ้นบ้านใหม่ -->
                 <div class="mt-3 w-full border-t border-dashed border-gray-200 pt-3">
-                    <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#2d6a4f] focus:outline-none bg-transparent placeholder-gray-300">
+                    <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#083600] focus:outline-none bg-transparent placeholder-gray-300">
                 </div>
             </div>
 
             <div class="mt-6 w-full flex flex-col gap-3">
-                <button onclick="saveHouseAsImage()" class="w-full bg-[#2d6a4f] text-white py-3.5 rounded-2xl font-bold shadow-lg hover:bg-[#1b4332] transition-all flex items-center justify-center gap-2 active:scale-95">
+                <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
+                <button onclick="saveHouseAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
-                <button onclick="closeHouseModal()" class="w-full bg-gray-400 text-white py-4 rounded-2xl font-bold text-lg active:scale-95">
+                <!-- EDIT: ปรับปุ่มปิดให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
+                <button onclick="closeHouseModal()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold text-lg active:scale-95 hover:bg-[#062b00]">
                     ปิดหน้าต่าง
                 </button>
             </div>
@@ -658,7 +781,7 @@
     <!-- ปรับ z-index เป็น z-[150] ให้แสดงเหนือหน้าอื่นๆ -->
     <div id="conditionModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('conditionModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
-            <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">เงื่อนไขกิจกรรม</h4>
+            <h4 class="text-xl font-bold text-[#083600] mb-4 text-center">เงื่อนไขกิจกรรม</h4>
             <ul class="text-sm text-gray-500 text-left list-disc pl-5 space-y-3">
                 <li>สามารถใช้ได้ 1 สิทธิ์ ต่อบ้าน 1 หลัง เท่านั้น</li>
                 <li>ไม่สามารถใช้ร่วมกับ ‘บัตรกำนัล’ อื่นของบริษัท สตาร์ทอัพ อัพ ได้</li>
@@ -673,7 +796,7 @@
     <!-- ปรับ z-index เป็น z-[150] ให้แสดงเหนือหน้าอื่นๆ -->
     <div id="historyModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('historyModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
-            <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">ประวัติรางวัล</h4>
+            <h4 class="text-xl font-bold text-[#083600] mb-4 text-center">ประวัติรางวัล</h4>
             <div id="historyList" class="max-h-[30vh] overflow-y-auto space-y-3"></div>
             <button onclick="toggleInfo('historyModal')" class="mt-8 w-full py-3 bg-gray-50 rounded-2xl font-bold text-gray-400">ปิดหน้าต่าง</button>
         </div>
@@ -682,11 +805,21 @@
     <!-- Prizes Modal (เพิ่มใหม่) -->
     <div id="prizesModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('prizesModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl relative" onclick="event.stopPropagation()">
-            <h4 class="text-xl font-bold text-[#2d6a4f] mb-4 text-center">รายการของรางวัล</h4>
+            <h4 class="text-xl font-bold text-[#083600] mb-4 text-center">รายการของรางวัล</h4>
             <div id="prizesList" class="max-h-[50vh] overflow-y-auto space-y-3 pr-2">
                 <!-- JS will populate this -->
             </div>
             <button onclick="toggleInfo('prizesModal')" class="mt-6 w-full py-3 bg-gray-50 rounded-2xl font-bold text-gray-400 text-sm">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+    
+    <!-- Promo Modal (New) -->
+    <div id="promoModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[160] p-6 backdrop-blur-sm">
+        <div class="relative w-full max-w-sm">
+            <button onclick="closePromo()" class="absolute -top-3 -right-3 bg-white text-[#083600] rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-lg border-2 border-white z-10 hover:scale-110 transition-transform">
+                ✕
+            </button>
+            <img src="https://lh3.googleusercontent.com/d/1NwD5P8vGaliyYS5wMRW4hvo8rb7tgbKk" class="w-full h-auto rounded-2xl shadow-2xl border-4 border-white object-contain">
         </div>
     </div>
 
@@ -702,23 +835,24 @@
 
     <!-- Success Modal -->
     <div id="successModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-6 backdrop-blur-sm">
-        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-green-500">
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-[#083600]">
             <div class="text-6xl mb-4" id="successIcon">✅</div>
             <img id="successImage" class="h-32 object-contain mx-auto mb-4 hidden">
             <h4 class="text-xl font-bold text-gray-800 mb-2">ได้รับสิทธิ์แล้ว</h4>
             <p id="successMessage" class="text-sm text-gray-500 mb-8 leading-relaxed whitespace-pre-line"></p>
-            <button onclick="closeSuccess()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold shadow-lg active:scale-95">ตกลง</button>
+            <!-- EDIT: เปลี่ยนสีปุ่มตกลง เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
+            <button onclick="closeSuccess()" class="w-full py-4 bg-[#083600] text-white rounded-2xl font-bold shadow-lg active:scale-95 hover:bg-[#062b00]">ตกลง</button>
         </div>
     </div>
 
     <!-- Confirm Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[120] p-6 backdrop-blur-sm">
-        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-[#2d6a4f]">
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-[#083600]">
             <div class="text-6xl mb-4">❓</div>
             <h4 class="text-xl font-bold text-gray-800 mb-2">ยืนยันการรับสิทธิ์</h4>
             <p class="text-sm text-gray-500 mb-8 leading-relaxed">คุณต้องการรับสิทธิ์โปรโมชั่นทำบุญขึ้นบ้านใหม่ใช่หรือไม่? (หากรับแล้วจะไม่สามารถหมุนวงล้อได้)</p>
             <div class="flex gap-3">
-                <button onclick="proceedClaimHouse()" class="w-full py-4 bg-[#2d6a4f] text-white rounded-2xl font-bold shadow-lg active:scale-95">ยืนยัน</button>
+                <button onclick="proceedClaimHouse()" class="w-full py-4 bg-[#083600] text-white rounded-2xl font-bold shadow-lg active:scale-95">ยืนยัน</button>
                 <button onclick="closeConfirm()" class="w-full py-4 bg-gray-200 text-gray-700 rounded-2xl font-bold active:scale-95">ยกเลิก</button>
             </div>
         </div>
@@ -764,8 +898,8 @@
             label: p.text,
             fullLabel: p.fullText || p.text,
             img: p.img,
-            color: i % 2 === 0 ? '#ffffff' : '#2d6a4f',
-            textColor: i % 2 === 0 ? '#2d6a4f' : '#ffffff',
+            color: i % 2 === 0 ? '#083600' : '#ffffff', // เขียวเข้ม สลับ ขาว
+            textColor: i % 2 === 0 ? '#ffffff' : '#083600',
             imgObj: null // Placeholder for image object
         }));
 
@@ -784,7 +918,7 @@
                     }
                 };
                 img.onerror = () => {
-                     // Fallback if image fails, count it anyway so we don't hang
+                      // Fallback if image fails, count it anyway so we don't hang
                     loadedImagesCount++;
                 }
                 prize.imgObj = img;
@@ -918,6 +1052,12 @@
                 successCallback = null;
             }
         }
+        
+        function closePromo() {
+            const pModal = document.getElementById('promoModal');
+            pModal.classList.add('hidden');
+            pModal.classList.remove('flex');
+        }
 
         async function handleLogin() {
             const name = document.getElementById('userName').value.trim();
@@ -953,10 +1093,25 @@
                 userData = { name, phone, note: '' }; // เอาโน้ตไปกรอกทีหลัง
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('selectionPage').classList.remove('hidden');
+                
+                // Show promo modal after login
+                setTimeout(() => {
+                    const pModal = document.getElementById('promoModal');
+                    pModal.classList.remove('hidden');
+                    pModal.classList.add('flex');
+                }, 500);
+                
             } catch (error) {
                 userData = { name, phone, note: '' };
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('selectionPage').classList.remove('hidden');
+                
+                 // Show promo modal even if API fails (assuming success for demo)
+                setTimeout(() => {
+                    const pModal = document.getElementById('promoModal');
+                    pModal.classList.remove('hidden');
+                    pModal.classList.add('flex');
+                }, 500);
             }
         }
 
@@ -984,44 +1139,44 @@
                 
                 // Draw Image on Wheel with Background Removal
                 if (prize.imgObj && prize.imgObj.complete) {
-                     const imgSize = 90; // Slightly smaller to fit with text
-                     const imgX = radius - 250; // Move inward to separate from text
-                     const imgY = -imgSize/2;
+                      const imgSize = 90; // Slightly smaller to fit with text
+                      const imgX = radius - 250; // Move inward to separate from text
+                      const imgY = -imgSize/2;
 
-                     // Create temp canvas for transparency processing
-                     const tempCanvas = document.createElement('canvas');
-                     tempCanvas.width = imgSize;
-                     tempCanvas.height = imgSize;
-                     const tempCtx = tempCanvas.getContext('2d');
-                     
-                     // Draw original image to temp canvas
-                     tempCtx.drawImage(prize.imgObj, 0, 0, imgSize, imgSize);
-                     
-                     try {
-                         // Get image data
-                         const imageData = tempCtx.getImageData(0, 0, imgSize, imgSize);
-                         const data = imageData.data;
-                         
-                         // Loop through pixels to remove white background
-                         for (let j = 0; j < data.length; j += 4) {
-                             const r = data[j];
-                             const g = data[j + 1];
-                             const b = data[j + 2];
-                             // Threshold for white (adjust as needed, e.g., > 240)
-                             if (r > 240 && g > 240 && b > 240) {
-                                 data[j + 3] = 0; // Set alpha to 0
-                             }
-                         }
-                         
-                         // Put modified data back
-                         tempCtx.putImageData(imageData, 0, 0);
-                         
-                         // Draw the processed image to the main canvas
-                         ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
-                     } catch (e) {
-                         // Fallback if CORS prevents pixel manipulation
-                         ctx.drawImage(prize.imgObj, imgX, imgY, imgSize, imgSize);
-                     }
+                      // Create temp canvas for transparency processing
+                      const tempCanvas = document.createElement('canvas');
+                      tempCanvas.width = imgSize;
+                      tempCanvas.height = imgSize;
+                      const tempCtx = tempCanvas.getContext('2d');
+                      
+                      // Draw original image to temp canvas
+                      tempCtx.drawImage(prize.imgObj, 0, 0, imgSize, imgSize);
+                      
+                      try {
+                          // Get image data
+                          const imageData = tempCtx.getImageData(0, 0, imgSize, imgSize);
+                          const data = imageData.data;
+                          
+                          // Loop through pixels to remove white background
+                          for (let j = 0; j < data.length; j += 4) {
+                              const r = data[j];
+                              const g = data[j + 1];
+                              const b = data[j + 2];
+                              // Threshold for white (adjust as needed, e.g., > 240)
+                              if (r > 240 && g > 240 && b > 240) {
+                                  data[j + 3] = 0; // Set alpha to 0
+                              }
+                          }
+                          
+                          // Put modified data back
+                          tempCtx.putImageData(imageData, 0, 0);
+                          
+                          // Draw the processed image to the main canvas
+                          ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
+                      } catch (e) {
+                          // Fallback if CORS prevents pixel manipulation
+                          ctx.drawImage(prize.imgObj, imgX, imgY, imgSize, imgSize);
+                      }
                 }
 
                 // Text
@@ -1032,11 +1187,11 @@
                 // Handle multiline
                 const lines = prize.label.split('\n');
                 if (lines.length > 1) {
-                     const lineHeight = 22;
-                     let startY = 8 - ((lines.length - 1) * lineHeight) / 2;
-                     lines.forEach((line, idx) => {
-                         ctx.fillText(line, radius - 20, startY + (idx * lineHeight));
-                     });
+                      const lineHeight = 22;
+                      let startY = 8 - ((lines.length - 1) * lineHeight) / 2;
+                      lines.forEach((line, idx) => {
+                          ctx.fillText(line, radius - 20, startY + (idx * lineHeight));
+                      });
                 } else {
                     ctx.fillText(prize.label, radius - 20, 8); 
                 }
@@ -1046,9 +1201,18 @@
 
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-            ctx.strokeStyle = '#2d6a4f';
+            
+            // --- แก้ไข: เปลี่ยนขอบวงล้อเป็นสีเขียว 083600 ตามคำขอ ---
+            ctx.strokeStyle = '#083600'; // ใช้สีเขียวเข้ม Solid
             ctx.lineWidth = 15;
+            // เพิ่มเงาให้ขอบดูนูนมีมิติ
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+            ctx.shadowBlur = 10;
+            
             ctx.stroke();
+            // Reset shadow เพื่อไม่ให้กระทบส่วนอื่น
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
         }
 
         function spin() {
@@ -1120,8 +1284,8 @@
                     'ยินดีด้วย!\nคุณได้รับ "' + prizeObj.label + '"\nเหลือสิทธิ์หมุนอีก 1 ครั้ง',
                     displayImg,
                     () => {
-                         spinBtn.disabled = false;
-                         spinBtn.innerText = "หมุนครั้งที่ 2";
+                          spinBtn.disabled = false;
+                          spinBtn.innerText = "หมุนครั้งที่ 2";
                     }
                 );
             } else if (spinCount === 2) {
@@ -1129,7 +1293,7 @@
                     'ยินดีด้วย!\nคุณได้รับ "' + prizeObj.label + '"',
                     displayImg,
                     () => {
-                         showFinalWheelResult();
+                          showFinalWheelResult();
                     }
                 );
             }
@@ -1258,7 +1422,7 @@
                         <img src="${imgSrc}" class="w-full h-full object-contain">
                     </div>
                     <div class="text-left">
-                        <p class="text-sm font-bold text-[#1b4332] leading-tight">${p.label.replace(/\n/g, ' ')}</p>
+                        <p class="text-sm font-bold text-[#083600] leading-tight">${p.label.replace(/\n/g, ' ')}</p>
                         <p class="text-[10px] text-gray-400 mt-0.5">รางวัลที่ ${index + 1}</p>
                     </div>
                 `;
@@ -1272,7 +1436,7 @@
             
             // Create a temporary text element to replace input for capture
             const textDisplay = document.createElement('div');
-            textDisplay.className = "w-full text-center text-[13px] font-semibold text-[#2d6a4f] py-2"; // Match input style
+            textDisplay.className = "w-full text-center text-[13px] font-semibold text-[#083600] py-2"; // Match input style
             textDisplay.innerText = input.value || input.placeholder; // Show value or placeholder
             
             // Swap
@@ -1306,7 +1470,7 @@
             
             // Create a temporary text element to replace input for capture
             const textDisplay = document.createElement('div');
-            textDisplay.className = "w-full text-center text-[13px] font-semibold text-[#2d6a4f] py-2"; // Match input style
+            textDisplay.className = "w-full text-center text-[13px] font-semibold text-[#083600] py-2"; // Match input style
             textDisplay.innerText = input.value || input.placeholder; // Show value or placeholder
             
             // Swap
@@ -1417,7 +1581,7 @@
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = ['#2d6a4f', '#ffffff', '#e63946', '#ffd700'][Math.floor(Math.random() * 4)];
+                confetti.style.backgroundColor = ['#083600', '#ffffff', '#e63946', '#ffd700'][Math.floor(Math.random() * 4)];
                 confetti.style.width = Math.random() * 8 + 6 + 'px';
                 confetti.style.height = confetti.style.width;
                 confetti.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
