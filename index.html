@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Startup Up Real Estate - Services</title>
+    
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="March Lucky Home - จังหวะดี ของการมีบ้าน">
+    <meta property="og:description" content="ลุ้นรับของรางวัลเฟอร์นิเจอร์ เครื่องใช้ไฟฟ้า และโปรโมชั่นทำบุญขึ้นบ้านใหม่ฟรี!">
+    <!-- ใส่ลิงก์รูปภาพพรีวิว (วงล้อด้านซ้าย/พระด้านขวา) ที่คุณต้องการที่นี่ -->
+    <meta property="og:image" content="https://drive.google.com/file/d/1mA5NdYiuxYuO7_BetQH7TvAB9gHdEOxa/view?usp=sharing">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -766,7 +774,7 @@
 
             <div class="mt-6 w-full flex flex-col gap-3">
                 <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
-                <button onclick="saveHouseAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
+                <button id="houseDownloadBtn" onclick="saveHouseAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
                 <!-- EDIT: ปรับปุ่มปิดให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
@@ -1589,6 +1597,25 @@
                 setTimeout(() => confetti.remove(), 3500);
             }
         }
+        
+        function updateMobileButtons() {
+            if (!isDesktop()) {
+                const btn1 = document.getElementById('downloadBtn');
+                const btn2 = document.getElementById('houseDownloadBtn');
+                const newText = `⚠️ <span class="animate-pulse">อย่าลืมแคปรูปภาพหน้าจอ</span> ⚠️`;
+                
+                if (btn1) {
+                    btn1.innerHTML = newText;
+                    btn1.classList.remove('text-white');
+                    btn1.classList.add('text-yellow-400', 'font-black', 'text-lg'); 
+                }
+                if (btn2) {
+                    btn2.innerHTML = newText;
+                    btn2.classList.remove('text-white');
+                    btn2.classList.add('text-yellow-400', 'font-black', 'text-lg');
+                }
+            }
+        }
 
         spinBtn.addEventListener('click', spin);
         window.onload = function() {
@@ -1596,6 +1623,9 @@
             drawWheel();
             setLineLinks();
             renderPrizesList(); // Render prize list on load (initial)
+            
+            // Check mobile and update button text
+            updateMobileButtons();
 
             // Intro Animation Logic
             setTimeout(() => {
