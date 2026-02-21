@@ -330,8 +330,8 @@
             overflow: hidden; 
         }
 
-        /* ---  Preview Box --- */
-        .-preview-container {
+        /* --- Image Preview Box --- */
+        .image-preview-container {
             width: 100%;
             aspect-ratio: 16/9;
             background: #f9fafb;
@@ -344,7 +344,7 @@
             overflow: hidden;
             position: relative;
         }
-        #houseBlessing {
+        #houseBlessingImage {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -629,7 +629,7 @@
                 <p class="text-gray-500 text-sm mb-6">บริษัท Startup Up Real Estate จัดแพ็กเกจทำบุญขึ้นบ้านใหม่ให้ฟรี ไม่มีค่าใช้จ่ายเพิ่มเติม</p>
                 
                 <div class="space-y-6">
-                    <!--  Replacement for Upload Section -->
+                    <!-- Image Replacement for Upload Section -->
                     <div class="w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100">
                         <img src="https://lh3.googleusercontent.com/d/1SeUJgnwbfwhPU76QVysEhngnDu2K9wEI" alt="House Blessing Promotion" class="w-full h-auto object-cover">
                     </div>
@@ -741,7 +741,7 @@
 
             <div class="mt-6 w-full flex flex-col gap-3">
                 <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
-                <button id="downloadBtn" onclick="saveAs()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
+                <button id="downloadBtn" onclick="saveAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
                 <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE (คงไว้ตามเดิมเพื่อให้เด่น) -->
@@ -784,7 +784,7 @@
 
             <div class="mt-6 w-full flex flex-col gap-3">
                 <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
-                <button id="houseDownloadBtn" onclick="saveHouseAs()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
+                <button id="houseDownloadBtn" onclick="saveHouseAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
                 <!-- EDIT: ปรับปุ่มปิดให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
@@ -855,7 +855,7 @@
     <div id="successModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-6 backdrop-blur-sm">
         <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-2xl text-center border-t-[10px] border-[#083600]">
             <div class="text-6xl mb-4" id="successIcon">✅</div>
-            <img id="success" class="h-32 object-contain mx-auto mb-4 hidden">
+            <img id="successImage" class="h-32 object-contain mx-auto mb-4 hidden">
             <h4 class="text-xl font-bold text-gray-800 mb-2">ได้รับสิทธิ์แล้ว</h4>
             <p id="successMessage" class="text-sm text-gray-500 mb-8 leading-relaxed whitespace-pre-line"></p>
             <!-- EDIT: เปลี่ยนสีปุ่มตกลง เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
@@ -918,43 +918,43 @@
             img: p.img,
             color: i % 2 === 0 ? '#083600' : '#ffffff', // เขียวเข้ม สลับ ขาว
             textColor: i % 2 === 0 ? '#ffffff' : '#083600',
-            imgObj: null // Placeholder for  object
+            imgObj: null // Placeholder for image object
         }));
 
-        // --- Preload s for Wheel ---
-        let loadedsCount = 0;
-        function preloads() {
+        // --- Preload Images for Wheel ---
+        let loadedImagesCount = 0;
+        function preloadImages() {
             prizes.forEach(prize => {
-                const img = new ();
+                const img = new Image();
                 img.crossOrigin = "Anonymous"; // Enable CORS for pixel manipulation
                 img.src = prize.img;
                 img.onload = () => {
-                    loadedsCount++;
-                    if (loadedsCount === prizes.length) {
-                        drawWheel(); // Redraw once all s are loaded
-                        renderPrizesList(); // Re-render list with processed s
+                    loadedImagesCount++;
+                    if (loadedImagesCount === prizes.length) {
+                        drawWheel(); // Redraw once all images are loaded
+                        renderPrizesList(); // Re-render list with processed images
                     }
                 };
                 img.onerror = () => {
-                      // Fallback if  fails, count it anyway so we don't hang
-                    loadedsCount++;
+                      // Fallback if image fails, count it anyway so we don't hang
+                    loadedImagesCount++;
                 }
                 prize.imgObj = img;
             });
         }
         
         // ฟังก์ชันสำหรับตัดพื้นหลังสีขาวออกจากรูปภาพ
-        function getTransparentSrc(imgObj) {
+        function getTransparentImageSrc(imgObj) {
             const canvas = document.createElement('canvas');
-            const size = 150; // Resolution for the result card 
+            const size = 150; // Resolution for the result card image
             canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext('2d');
-            ctx.draw(imgObj, 0, 0, size, size);
+            ctx.drawImage(imgObj, 0, 0, size, size);
             
             try {
-                const Data = ctx.getData(0, 0, size, size);
-                const data = Data.data;
+                const imageData = ctx.getImageData(0, 0, size, size);
+                const data = imageData.data;
                 for (let j = 0; j < data.length; j += 4) {
                     const r = data[j];
                     const g = data[j + 1];
@@ -964,7 +964,7 @@
                         data[j + 3] = 0; // Set alpha to 0
                     }
                 }
-                ctx.putData(Data, 0, 0);
+                ctx.putImageData(imageData, 0, 0);
                 return canvas.toDataURL();
             } catch (e) {
                 return imgObj.src;
@@ -992,12 +992,12 @@
             document.getElementById('selectionPage').classList.remove('hidden');
         }
 
-        // ---  Preview for House Blessing ---
-        function preview(event) {
+        // --- Image Preview for House Blessing ---
+        function previewImage(event) {
             const input = event.target;
             const reader = new FileReader();
             reader.onload = function(){
-                const img = document.getElementById('houseBlessing');
+                const img = document.getElementById('houseBlessingImage');
                 const placeholder = document.getElementById('uploadPlaceholder');
                 img.src = reader.result;
                 img.classList.remove('hidden');
@@ -1043,7 +1043,7 @@
 
         function showSuccess(msg, imgSrc = null, callback = null) {
             document.getElementById('successMessage').innerText = msg;
-            const imgEl = document.getElementById('success');
+            const imgEl = document.getElementById('successImage');
             const iconEl = document.getElementById('successIcon');
 
             if (imgSrc) {
@@ -1155,7 +1155,7 @@
                 ctx.translate(centerX, centerY);
                 ctx.rotate(angle + sliceAngle / 2);
                 
-                // Draw  on Wheel with Background Removal
+                // Draw Image on Wheel with Background Removal
                 if (prize.imgObj && prize.imgObj.complete) {
                       const imgSize = 90; // Slightly smaller to fit with text
                       const imgX = radius - 250; // Move inward to separate from text
@@ -1167,12 +1167,12 @@
                       tempCanvas.height = imgSize;
                       const tempCtx = tempCanvas.getContext('2d');
                       
-                      // Draw original  to temp canvas
-                      tempCtx.draw(prize.imgObj, 0, 0, imgSize, imgSize);
+                      // Draw original image to temp canvas
+                      tempCtx.drawImage(prize.imgObj, 0, 0, imgSize, imgSize);
                       
                       try {
-                          // Get  data
-                          const Data = tempCtx.getImageData(0, 0, imgSize, imgSize);
+                          // Get image data
+                          const imageData = tempCtx.getImageData(0, 0, imgSize, imgSize);
                           const data = imageData.data;
                           
                           // Loop through pixels to remove white background
