@@ -141,7 +141,6 @@
             align-items: center;
             justify-content: center;
             z-index: 30;
-            /* แก้ไข: เปลี่ยนขอบโลโก้ตรงกลางเป็นสีขาว */
             border: 4px solid #ffffff; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             overflow: hidden;
@@ -188,7 +187,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* เพิ่ม Animation หมุนช้าๆ สำหรับวงล้อหน้าแรก */
         @keyframes spin-slow {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -224,12 +222,12 @@
             transform: scale(0.95);
         }
 
-        /* --- Style 2 Capture Area --- */
+        /* --- Style 2 Capture Area --- ปรับ Padding ให้ลดลง เพื่อความสั้น --- */
         #captureArea, #captureHouseArea {
-            width: 340px;
+            width: 330px;
             background: #ffffff;
-            border-radius: 35px;
-            padding: 35px 25px;
+            border-radius: 30px;
+            padding: 20px 20px;
             text-align: center;
             position: relative;
             display: flex;
@@ -238,21 +236,22 @@
             justify-content: center;
         }
 
+        /* ปรับขนาดไอคอนลดลง */
         .capture-icon-circle {
-            width: 110px;
-            height: 110px;
+            width: 80px;
+            height: 80px;
             background: #f9fafb;
             border-radius: 50%;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 55px;
+            font-size: 40px;
             border: 2px solid #e5e7eb;
         }
 
         .capture-title {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             color: #1a1a1a;
             margin-bottom: 2px;
@@ -264,23 +263,23 @@
             margin-bottom: 2px;
         }
         .capture-subtitle.last {
-            margin-bottom: 22px;
+            margin-bottom: 12px; /* ลด margin ลง */
         }
 
         .capture-prize-box {
             width: 100%;
             border: 2px dashed #083600;
-            border-radius: 20px;
+            border-radius: 16px;
             background-color: #f9fafb;
-            padding: 22px 15px;
-            margin-bottom: 25px;
+            padding: 15px 12px; /* ลด padding */
+            margin-bottom: 15px; /* ลด margin */
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
         }
 
         .capture-prize-label {
-            font-size: 13px;
+            font-size: 12px;
             color: #083600;
             font-weight: 400;
             text-transform: uppercase;
@@ -288,7 +287,7 @@
         }
 
         .capture-prize-value {
-            font-size: 28px;
+            font-size: 24px; /* ลดขนาด font นิดหน่อย */
             font-weight: 700;
             color: #083600;
             line-height: 1.1;
@@ -354,8 +353,8 @@
         .prize-result-container {
             display: flex;
             width: 100%;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 12px; /* ลด margin */
             justify-content: center;
         }
         .prize-card {
@@ -363,21 +362,21 @@
             background: #f9fafb;
             border: 2px solid #e5e7eb;
             border-radius: 16px;
-            padding: 12px;
+            padding: 10px; /* ลด padding */
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
         .prize-card-img-wrapper {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: transparent; 
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             overflow: hidden;
             border: 1px solid #e5e7eb;
         }
@@ -387,7 +386,7 @@
             object-fit: contain;
         }
         .prize-card-text {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             color: #083600;
             line-height: 1.2;
@@ -512,12 +511,10 @@
         <div class="flex flex-col gap-6 w-full items-center">
             <!-- กล่องที่ 1: สุ่มวงล้อ -->
             <div onclick="navigateTo('luckyWheel')" class="selection-card">
-                <!-- แก้ไข: ลบขอบสีทองออก ตามคำขอ (border: none) -->
                 <div class="icon-bg" style="background: none; padding: 0; overflow: hidden; border: none; position: relative;">
                     
                     <!-- ส่วนวงล้อที่หมุน (ใช้ animation: spin-slow) -->
                     <div style="width: 100%; height: 100%; position: absolute; inset: 0; animation: spin-slow 10s linear infinite;">
-                         <!-- ปรับสีวงล้อหน้าเลือกให้เป็นเขียวเข้มสลับขาว (ตามที่ขอ) -->
                          <div style="width: 100%; height: 100%; border-radius: 50%; 
                          background: repeating-conic-gradient(
                             #083600 0deg 45deg, 
@@ -528,9 +525,7 @@
                     </div>
 
                     <!-- ส่วนที่อยู่กับที่ (โลโก้ตรงกลาง) -->
-                    <!-- ปรับขนาดจุดหมุนลงจาก 55% เป็น 34% เพื่อแก้ปัญหาดูเหมือนห่วงยาง -->
                     <div style="position: absolute; inset: 0; margin: auto; width: 34%; height: 34%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10;">
-                         <!-- ปรับขนาดโลโก้ให้เต็มพื้นที่วงกลมเล็ก -->
                          <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" style="width: 85%; height: 85%; object-fit: contain;">
                     </div>
 
@@ -542,7 +537,6 @@
             </div>
             <!-- กล่องที่ 2: ทำบุญขึ้นบ้านใหม่ -->
             <div onclick="navigateTo('houseBlessing')" class="selection-card" style="border-bottom-color: #083600;">
-                <!-- แก้ไข: ใส่ Animation พระเดินแทน Emoji -->
                 <div class="icon-bg" style="background-color: #f9fafb; padding: 0;">
                     <div class="monk-anim-wrapper">
                         <!-- Monk 1 -->
@@ -634,7 +628,6 @@
                         <img src="https://lh3.googleusercontent.com/d/1SeUJgnwbfwhPU76QVysEhngnDu2K9wEI" alt="House Blessing Promotion" class="w-full h-auto object-cover">
                     </div>
                     
-                    <!-- EDIT: เปลี่ยน Link เป็นข้อความ 🔻กดด้านล่าง🔻 และลิงก์ด้านล่าง -->
                     <div class="mt-2 text-center flex flex-col items-center">
                         <span class="text-xs text-[#083600] animate-bounce mb-1 font-bold">🔻กดด้านล่าง🔻</span>
                         <a href="https://drive.google.com/file/d/10sPXfXNfpey5aW0q_qBpkb41rjY4Djf3/view?usp=sharing" target="_blank" class="text-[#083600] font-bold underline text-sm hover:text-green-700 transition-colors">
@@ -661,7 +654,6 @@
                 <button id="claimHouseBtn" onclick="initClaimHouse()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95 transition-all mb-3">
                     🎁 กดรับสิทธิ์ทำบุญขึ้นบ้านใหม่
                 </button>
-                <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE -->
                 <a id="houseLineBtn" href="#" target="_blank" class="hidden house-line-btn items-center justify-center gap-2 w-full bg-[#06C755] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95">
                     <span>🟢</span> รับเช็ตทำบุญขึ้นบ้านใหม่ฟรีทาง LINE
                 </a>
@@ -676,12 +668,10 @@
                 <button onclick="goBackToSelectionFromWheel()" class="text-gray-400 font-bold text-sm">← กลับหน้าหลัก</button>
             </div>
             <div class="flex justify-between items-center mt-2 mb-2">
-                <!-- แก้ไข: เปลี่ยนข้อความปุ่ม -->
                 <button onclick="toggleInfo('prizesModal')" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#083600]">
                     รายการของรางวัล
                 </button>
 
-                <!-- แก้ไข: เอา backdrop-blur ออกจากกล่องโลโก้และปุ่มประวัติ -->
                 <div class="bg-white/90 px-5 py-2 rounded-2xl shadow-sm border border-gray-100">
                     <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="h-8 w-auto">
                 </div>
@@ -706,7 +696,6 @@
             <button id="spinBtn" class="bg-[#083600] hover:bg-[#083600] text-white border-b-4 border-[#083600]">
                 เริ่มหมุนวงล้อ
             </button>
-            <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE -->
             <a id="mainLineBtn" href="#" target="_blank" class="hidden flex items-center justify-center gap-2 w-full max-w-[260px] bg-[#06C755] text-white py-3 rounded-full text-sm font-bold shadow-xl animate-bounce">
                 <span>🟢</span> ติดต่อรับรางวัลทาง LINE
             </a>
@@ -714,12 +703,11 @@
     </div>
 
     <!-- Winner Modal (Wheel) -->
-    <div id="resultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md">
-        <div class="max-w-sm w-full flex flex-col items-center">
+    <div id="resultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md overflow-y-auto">
+        <div class="max-w-sm w-full flex flex-col items-center my-auto">
             
             <div id="captureArea">
-                <!-- ส่วนแสดงผลรางวัลใหม่แบบแยก 2 ใบ -->
-                <div id="prizeIcon" class="hidden"></div> <!-- ซ่อนอันเดิมไว้ -->
+                <div id="prizeIcon" class="hidden"></div>
                 <h3 class="capture-title">ยินดีด้วย!</h3>
                 <p id="winnerNameDisplay" class="capture-subtitle"></p>
                 <p id="winnerPhoneDisplay" class="capture-subtitle last"></p>
@@ -728,27 +716,28 @@
                 <div id="prizeResultContainer" class="prize-result-container">
                     <!-- JS จะใส่การ์ดรางวัลที่นี่ -->
                 </div>
-                <!-- ซ่อนอันเดิมไว้ -->
                 <div id="prizeResult" class="hidden"></div>
 
                 <p class="capture-footer-text">STARTUP UP REAL ESTATE</p>
                 
-                <!-- เพิ่มช่องใส่โครงการในใบสรุปวงล้อ -->
-                <div class="mt-3 w-full border-t border-dashed border-gray-200 pt-3">
+                <div class="mt-2 w-full border-t border-dashed border-gray-200 pt-2">
                     <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#083600] focus:outline-none bg-transparent placeholder-gray-300">
                 </div>
             </div>
 
-            <div class="mt-6 w-full flex flex-col gap-3">
-                <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
-                <button id="downloadBtn" onclick="saveAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
+            <div class="mt-4 w-full flex flex-col gap-3">
+                <!-- Desktop Button -->
+                <button onclick="saveAsImage()" class="hidden sm:flex w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
-                <!-- ปรับสีปุ่ม LINE เป็นสีเขียว LINE (คงไว้ตามเดิมเพื่อให้เด่น) -->
+                <!-- Mobile Warning (Unclickable) -->
+                <div class="flex sm:hidden w-full bg-[#083600] text-yellow-300 py-3.5 rounded-2xl font-black text-[17px] border-2 border-yellow-300 shadow-lg items-center justify-center gap-2 pointer-events-none">
+                    ⚠️ <span class="animate-pulse">อย่าลืมแคปรูปภาพหน้าจอ</span> ⚠️
+                </div>
+
                 <a id="resultLineBtn" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#06C755] text-white py-3.5 rounded-2xl font-bold shadow-lg active:scale-95">
                     <span>🟢</span> ติดต่อทาง LINE
                 </a>
-                <!-- EDIT: ปรับปุ่มตกลงให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
                 <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold text-lg opacity-50 cursor-not-allowed hover:bg-[#062b00]" disabled>
                     ตกลง
                 </button>
@@ -758,36 +747,39 @@
     </div>
 
     <!-- Winner Modal (House Blessing Summary) -->
-    <div id="houseResultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md">
-        <div class="max-w-sm w-full flex flex-col items-center">
+    <div id="houseResultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md overflow-y-auto">
+        <div class="max-w-sm w-full flex flex-col items-center my-auto">
             <div id="captureHouseArea">
-                <div class="w-[110px] h-[110px] bg-[#f9fafb] rounded-full mb-5 flex items-center justify-center text-[55px] border-2 border-[#e5e7eb]">🏠</div>
+                <div class="w-[80px] h-[80px] bg-[#f9fafb] rounded-full mb-3 flex items-center justify-center border-2 border-[#e5e7eb] p-2 overflow-hidden">
+                    <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="w-full h-full object-contain">
+                </div>
                 <h3 class="capture-title">รับสิทธิ์สำเร็จ!</h3>
                 <p id="houseWinnerNameDisplay" class="capture-subtitle"></p>
                 <p id="houseWinnerPhoneDisplay" class="capture-subtitle last"></p>
-                <div class="w-full border-2 border-dashed border-[#083600] rounded-[20px] bg-[#f9fafb] p-[22px_15px] mb-[25px] flex flex-col gap-[6px]">
-                    <span class="text-[13px] text-[#083600] font-normal uppercase tracking-[0.05em]">รายการที่คุณได้รับ</span>
-                    <ul class="text-[15px] font-bold text-[#083600] leading-relaxed text-left pl-6 list-disc">
-                        <li>จัดหาอุปกรณ์สงฆ์ครบชุด</li>
-                        <li>นิมนต์พระและรถรับส่ง</li>
-                        <li>ออกแบบสถานที่แบบ 3D</li>
-                        <li>ทีมงานดูแลตลอดพิธีการ</li>
-                    </ul>
+                
+                <!-- เอารอยประและขอบออก ใส่รูปภาพตรงๆ -->
+                <div class="w-full bg-[#f9fafb] rounded-[16px] p-2 mb-3 flex flex-col items-center justify-center">
+                    <img src="https://lh3.googleusercontent.com/d/1vio9pAEEE1sOgYdkcsMY40ypXN4EKJHl" alt="แพ็กเกจทำบุญขึ้นบ้านใหม่" class="w-full max-h-[140px] rounded-xl object-contain" crossorigin="anonymous">
                 </div>
+                
                 <p class="capture-footer-text">STARTUP UP REAL ESTATE</p>
                 
                 <!-- เพิ่มช่องใส่โครงการในใบสรุปทำบุญขึ้นบ้านใหม่ -->
-                <div class="mt-3 w-full border-t border-dashed border-gray-200 pt-3">
+                <div class="mt-2 w-full border-t border-dashed border-gray-200 pt-2">
                     <input type="text" placeholder="หมายเหตุ" class="w-full text-center text-[13px] font-semibold text-[#083600] focus:outline-none bg-transparent placeholder-gray-300">
                 </div>
             </div>
 
-            <div class="mt-6 w-full flex flex-col gap-3">
-                <!-- EDIT: ปรับปุ่มให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
-                <button id="houseDownloadBtn" onclick="saveHouseAsImage()" class="w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
+            <div class="mt-4 w-full flex flex-col gap-3">
+                <!-- Desktop Button -->
+                <button onclick="saveHouseAsImage()" class="hidden sm:flex w-full bg-[#083600] text-white py-3.5 rounded-2xl font-bold shadow-lg transition-all items-center justify-center gap-2 active:scale-95 hover:bg-[#062b00]">
                     📸 บันทึกรูปภาพหลักฐาน
                 </button>
-                <!-- EDIT: ปรับปุ่มปิดให้เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
+                <!-- Mobile Warning (Unclickable) -->
+                <div class="flex sm:hidden w-full bg-[#083600] text-yellow-300 py-3.5 rounded-2xl font-black text-[17px] border-2 border-yellow-300 shadow-lg items-center justify-center gap-2 pointer-events-none">
+                    ⚠️ <span class="animate-pulse">อย่าลืมแคปรูปภาพหน้าจอ</span> ⚠️
+                </div>
+                
                 <button onclick="closeHouseModal()" class="w-full bg-[#083600] text-white py-4 rounded-2xl font-bold text-lg active:scale-95 hover:bg-[#062b00]">
                     ปิดหน้าต่าง
                 </button>
@@ -796,7 +788,6 @@
     </div>
 
     <!-- Condition Modals -->
-    <!-- ปรับ z-index เป็น z-[150] ให้แสดงเหนือหน้าอื่นๆ -->
     <div id="conditionModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('conditionModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
             <h4 class="text-xl font-bold text-[#083600] mb-4 text-center">เงื่อนไขกิจกรรม</h4>
@@ -811,7 +802,7 @@
         </div>
     </div>
 
-    <!-- ปรับ z-index เป็น z-[150] ให้แสดงเหนือหน้าอื่นๆ -->
+    <!-- History Modal -->
     <div id="historyModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('historyModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl" onclick="event.stopPropagation()">
             <h4 class="text-xl font-bold text-[#083600] mb-4 text-center">ประวัติรางวัล</h4>
@@ -820,7 +811,7 @@
         </div>
     </div>
     
-    <!-- Prizes Modal (เพิ่มใหม่) -->
+    <!-- Prizes Modal -->
     <div id="prizesModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[150] p-6 backdrop-blur-sm" onclick="toggleInfo('prizesModal')">
         <div class="bg-white rounded-3xl p-7 max-w-xs w-full shadow-2xl relative" onclick="event.stopPropagation()">
             <h4 class="text-xl font-bold text-[#083600] mb-4 text-center">รายการของรางวัล</h4>
@@ -831,7 +822,7 @@
         </div>
     </div>
     
-    <!-- Promo Modal (New) -->
+    <!-- Promo Modal -->
     <div id="promoModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[160] p-6 backdrop-blur-sm">
         <div class="relative w-full max-w-sm">
             <button onclick="closePromo()" class="absolute -top-3 -right-3 bg-white text-[#083600] rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-lg border-2 border-white z-10 hover:scale-110 transition-transform">
@@ -858,7 +849,6 @@
             <img id="successImage" class="h-32 object-contain mx-auto mb-4 hidden">
             <h4 class="text-xl font-bold text-gray-800 mb-2">ได้รับสิทธิ์แล้ว</h4>
             <p id="successMessage" class="text-sm text-gray-500 mb-8 leading-relaxed whitespace-pre-line"></p>
-            <!-- EDIT: เปลี่ยนสีปุ่มตกลง เป็นสีเขียวเข้ม #083600 ตัวหนังสือขาว -->
             <button onclick="closeSuccess()" class="w-full py-4 bg-[#083600] text-white rounded-2xl font-bold shadow-lg active:scale-95 hover:bg-[#062b00]">ตกลง</button>
         </div>
     </div>
@@ -923,7 +913,7 @@
 
         // --- Preload Images for Wheel ---
         let loadedImagesCount = 0;
-        function preloadImages() {
+        function preloads() {
             prizes.forEach(prize => {
                 const img = new Image();
                 img.crossOrigin = "Anonymous"; // Enable CORS for pixel manipulation
@@ -990,20 +980,6 @@
         function goBackToSelectionFromHouse() {
             document.getElementById('houseBlessingPage').classList.add('hidden');
             document.getElementById('selectionPage').classList.remove('hidden');
-        }
-
-        // --- Image Preview for House Blessing ---
-        function previewImage(event) {
-            const input = event.target;
-            const reader = new FileReader();
-            reader.onload = function(){
-                const img = document.getElementById('houseBlessingImage');
-                const placeholder = document.getElementById('uploadPlaceholder');
-                img.src = reader.result;
-                img.classList.remove('hidden');
-                placeholder.classList.add('hidden');
-            };
-            reader.readAsDataURL(input.files[0]);
         }
 
         function isDesktop() {
@@ -1607,38 +1583,13 @@
                 setTimeout(() => confetti.remove(), 3500);
             }
         }
-        
-        function updateMobileButtons() {
-            if (!isDesktop()) {
-                const btn1 = document.getElementById('downloadBtn');
-                const btn2 = document.getElementById('houseDownloadBtn');
-                // Creating a more aggressive visual cue with yellow color and border
-                const newText = `⚠️ <span class="animate-pulse">อย่าลืมแคปรูปภาพหน้าจอ</span> ⚠️`;
-                
-                if (btn1) {
-                    btn1.innerHTML = newText;
-                    btn1.classList.remove('text-white');
-                    btn1.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300', 'pointer-events-none'); 
-                    btn1.removeAttribute('onclick');
-                }
-                if (btn2) {
-                    btn2.innerHTML = newText;
-                    btn2.classList.remove('text-white');
-                    btn2.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300', 'pointer-events-none');
-                    btn2.removeAttribute('onclick');
-                }
-            }
-        }
 
         spinBtn.addEventListener('click', spin);
         window.onload = function() {
-            preloadImages(); // Start loading images
+            preloads(); // Changed from preloadImages to preloads
             drawWheel();
             setLineLinks();
             renderPrizesList(); // Render prize list on load (initial)
-            
-            // Check mobile and update button text
-            updateMobileButtons();
 
             // Intro Animation Logic
             setTimeout(() => {
