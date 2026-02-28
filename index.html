@@ -193,9 +193,9 @@
         }
 
         .logo-img {
-            width: 85%;
-            height: 85%;
-            object-fit: contain; 
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
         }
 
         .action-area {
@@ -485,7 +485,7 @@
 
     <!-- Intro Animation Page -->
     <div id="introPage" class="fixed inset-0 bg-[#f3f4f6] z-[200] flex flex-col items-center justify-center">
-        <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-28 mb-8 animate-pulse object-contain">
+        <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" alt="Logo" class="h-32 w-32 mb-8 animate-pulse object-cover rounded-[2rem] shadow-xl">
         <h1 class="text-3xl font-bold text-[#083600] text-center px-4 mb-3 drop-shadow-sm leading-tight">
             March Lucky Home
         </h1>
@@ -499,7 +499,7 @@
             เงื่อนไข
         </button>
 
-        <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-16 mb-4">
+        <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" alt="Logo" class="h-20 w-20 object-cover rounded-2xl mb-4 shadow-md">
         
         <!-- เพิ่มชื่อแคมเปญหน้าเลือก -->
         <div class="text-center mb-6">
@@ -525,8 +525,8 @@
                     </div>
 
                     <!-- ส่วนที่อยู่กับที่ (โลโก้ตรงกลาง) -->
-                    <div style="position: absolute; inset: 0; margin: auto; width: 34%; height: 34%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10;">
-                         <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" style="width: 85%; height: 85%; object-fit: contain;">
+                    <div style="position: absolute; inset: 0; margin: auto; width: 34%; height: 34%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10; overflow: hidden;">
+                         <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
 
                     <!-- ส่วนที่อยู่กับที่ (เข็ม) -->
@@ -612,7 +612,7 @@
         <div class="game-wrapper px-6 py-4">
             <div class="flex justify-between items-center mb-8">
                 <button onclick="goBackToSelectionFromHouse()" class="text-gray-400 font-bold">← กลับหน้าหลัก</button>
-                <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="h-8">
+                <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-sm">
                 <button onclick="showHouseHistory()" class="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#083600]">
                     ประวัติ
                 </button>
@@ -655,7 +655,7 @@
                     🎁 กดรับสิทธิ์ทำบุญขึ้นบ้านใหม่
                 </button>
                 <a id="houseLineBtn" href="#" target="_blank" class="hidden house-line-btn items-center justify-center gap-2 w-full bg-[#06C755] text-white py-4 rounded-2xl font-bold shadow-lg active:scale-95">
-                    <span>🟢</span> ยืนยันสิทธิ์ทำบุญขึ้นบ้านใหม่ฟรีทาง LINE
+                    <span>🟢</span> รับเช็ตทำบุญขึ้นบ้านใหม่ฟรีทาง LINE
                 </a>
             </div>
         </div>
@@ -672,8 +672,8 @@
                     รายการของรางวัล
                 </button>
 
-                <div class="bg-white/90 px-5 py-2 rounded-2xl shadow-sm border border-gray-100">
-                    <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="h-8 w-auto">
+                <div class="bg-white/90 p-1.5 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
+                    <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" alt="Startup Up Logo" class="h-9 w-9 object-cover rounded-lg">
                 </div>
                 <button onclick="showHistory()" class="bg-white/90 px-4 py-2 rounded-full shadow-sm border border-gray-100 text-[11px] font-bold text-[#083600]">
                     ประวัติ
@@ -685,7 +685,7 @@
             <div class="wheel-container">
                 <div class="pointer"></div>
                 <div class="center-logo">
-                     <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Logo" class="logo-img">
+                     <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" alt="Logo" class="logo-img">
                 </div>
                 <canvas id="wheelCanvas" width="800" height="800"></canvas>
             </div>
@@ -750,8 +750,8 @@
     <div id="houseResultModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-[110] p-4 backdrop-blur-md overflow-y-auto">
         <div class="max-w-sm w-full flex flex-col items-center my-auto">
             <div id="captureHouseArea">
-                <div class="w-[80px] h-[80px] bg-[#f9fafb] rounded-full mb-3 flex items-center justify-center border-2 border-[#e5e7eb] p-2 overflow-hidden">
-                    <img src="https://lh3.googleusercontent.com/d/1EEAbI2a89rG4ii0Um0cfWdXLtcb6I_RU" alt="Startup Up Logo" class="w-full h-full object-contain">
+                <div class="w-[80px] h-[80px] bg-[#f9fafb] rounded-full mb-3 flex items-center justify-center border-2 border-[#e5e7eb] overflow-hidden">
+                    <img src="https://lh3.googleusercontent.com/d/1nlHRqd5Lje0EDM6Nyncr0jv6tzmyxy6Q" alt="Startup Up Logo" class="w-full h-full object-cover">
                 </div>
                 <h3 class="capture-title">รับสิทธิ์สำเร็จ!</h3>
                 <p id="houseWinnerNameDisplay" class="capture-subtitle"></p>
@@ -1176,18 +1176,18 @@
                 // Text
                 ctx.textAlign = "right";
                 ctx.fillStyle = prize.textColor;
-                ctx.font = "bold 20px Kanit";
+                ctx.font = "bold 14px Kanit";
                 
                 // Handle multiline
                 const lines = prize.label.split('\n');
                 if (lines.length > 1) {
-                      const lineHeight = 22;
-                      let startY = 8 - ((lines.length - 1) * lineHeight) / 2;
+                      const lineHeight = 18;
+                      let startY = 6 - ((lines.length - 1) * lineHeight) / 2;
                       lines.forEach((line, idx) => {
                           ctx.fillText(line, radius - 20, startY + (idx * lineHeight));
                       });
                 } else {
-                    ctx.fillText(prize.label, radius - 20, 8); 
+                    ctx.fillText(prize.label, radius - 20, 6); 
                 }
                 
                 ctx.restore();
@@ -1583,6 +1583,28 @@
                 setTimeout(() => confetti.remove(), 3500);
             }
         }
+        
+        function updateMobileButtons() {
+            if (!isDesktop()) {
+                const btn1 = document.getElementById('downloadBtn');
+                const btn2 = document.getElementById('houseDownloadBtn');
+                // Creating a more aggressive visual cue with yellow color and border
+                const newText = `⚠️ <span class="animate-pulse">อย่าลืมแคปรูปภาพหน้าจอ</span> ⚠️`;
+                
+                if (btn1) {
+                    btn1.innerHTML = newText;
+                    btn1.classList.remove('text-white');
+                    btn1.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300', 'pointer-events-none'); 
+                    btn1.removeAttribute('onclick');
+                }
+                if (btn2) {
+                    btn2.innerHTML = newText;
+                    btn2.classList.remove('text-white');
+                    btn2.classList.add('text-yellow-300', 'font-black', 'text-lg', 'border-2', 'border-yellow-300', 'pointer-events-none');
+                    btn2.removeAttribute('onclick');
+                }
+            }
+        }
 
         spinBtn.addEventListener('click', spin);
         window.onload = function() {
@@ -1590,6 +1612,9 @@
             drawWheel();
             setLineLinks();
             renderPrizesList(); // Render prize list on load (initial)
+            
+            // Check mobile and update button text
+            updateMobileButtons();
 
             // Intro Animation Logic
             setTimeout(() => {
